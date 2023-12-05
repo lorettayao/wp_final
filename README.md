@@ -1,2 +1,2 @@
 # wp_final
-Loretta and Cynthia
+Loretta and Cynthia and Angel
