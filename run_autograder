@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Manual setup since gradescope doesn't use .bashrc?
+export PATH="/root/.local/share/fnm:$PATH"
+eval "`fnm env`"
+
+TODO_FILES=(
+  src/app/auth/_components/AuthForm.tsx \
+  src/app/projects/actions.ts \
+  src/app/projects/[projectId]/actions.ts \
+  src/app/projects/_components/Navbar.tsx \
+  src/app/projects/_components/SignOutButton.tsx \
+  src/app/projects/create/_components/CreateProjectForm.tsx \
+  src/db/index.ts \
+  src/lib/auth/CredentialsProvider.ts \
+  src/lib/env/private.ts \
+)
+
+# copy files in TODO_FILES from /autograder/submission/ to /autograder/source/
+for file in "${TODO_FILES[@]}"; do
+  if [ ! -f "/autograder/submission/$file" ]; then continue; fi
+  echo "Found: $file"
+  cp "/autograder/submission/$file" "/autograder/source/$file"
+done
+
+# Manual check if yarn install is working :)
+cd /autograder/source
+yarn install
+
+# Setup PostgreSQL Database
+su - postgres -c "bash -c '\
+# add postgres to the path
+export PATH=\"/usr/lib/postgresql/16/bin:\$PATH\"; \
+# init the database
+initdb -D /var/lib/postgresql/data; \
+# start the database
+pg_ctl -D /var/lib/postgresql/data -l logfile start; \
+# drop the database if it exists
+dropdb --if-exists hack2; \
+# create the database
+createdb hack2; \
+'"
+
+# Run tests
+cd /autograder/source
+yarn migrate
+GRADESCOPE=true yarn test
+
+# Generate the /autograder/results/results.json file
+mkdir -p /autograder/results
+node gen-result.js > /autograder/results/results.json
