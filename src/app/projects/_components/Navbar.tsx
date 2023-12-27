@@ -60,10 +60,7 @@ export default async function Navbar() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
           <span className="text-md font-semibold">
             {
-              // TODO: 7. Display user's name here
-              // hint: line 14 of this file
               session?.user?.name || "User"
-              // TODO: 7. end
             }
           </span>
         </div>
