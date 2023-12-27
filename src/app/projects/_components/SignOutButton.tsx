@@ -1,5 +1,3 @@
-// TODO: 4. Call the signOut() function when the button is clicked
-// hint: You may want to change the first line of this file
 "use client";
 import { useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
@@ -20,6 +18,5 @@ export default function SignOutButton() {
       router.push("/");
     }
   }, [session, router]);
-  return <Button data-testid="sign-out-button" variant={"outline"} onClick={handleSignOut}>Sign Out</Button>;
+  return <Button data-testid="sign-out-button" variant={"outline"} onClick={handleSignOut} className="font-serif">Sign Out</Button>;
 }
-// TODO: 4. end

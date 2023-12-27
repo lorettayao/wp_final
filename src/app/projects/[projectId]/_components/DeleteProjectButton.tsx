@@ -10,7 +10,7 @@ type DeleteProjectProps = {
 
 export default function DeleteProjectButton({ id }: DeleteProjectProps) {
   return (
-    <Button className="bg-red-500" onClick={() => deleteProject(id)}>
+    <Button className="bg-red-500 font-serif" onClick={() => deleteProject(id)}>
       delete
     </Button>
   );

@@ -17,10 +17,10 @@ export default async function Navbar() {
   }
   const projects = await getProjects(userId);
   return (
-    <nav className="flex min-w-fit flex-col justify-between gap-2 overflow-hidden bg-gray-100">
+    <nav className="flex min-w-fit flex-col justify-between gap-2 overflow-hidden bg-gray-100 font-serif">
       <div className="flex h-10 w-full flex-row items-center gap-12 px-6 py-8 pt-8">
         <h2 className="text-2xl font-bold" data-testid="title">
-          Your Projects
+          GRE StudEE
         </h2>
       </div>
       <Separator />
@@ -28,7 +28,7 @@ export default async function Navbar() {
         className="mx-2 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
         href="/projects/create"
       >
-        + Create Project
+        + 今日單字
       </Link>
       <Link
         className="mx-2 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"

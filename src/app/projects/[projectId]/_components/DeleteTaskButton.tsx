@@ -14,7 +14,7 @@ export default function DeleteTaskItemButton({
   projectId,
 }: DeleteTaskItemProps) {
   return (
-    <Button className="bg-red-500" onClick={() => deleteTask(id, projectId)}>
+    <Button className="bg-red-500 font-serif" onClick={() => deleteTask(id, projectId)}>
       delete
     </Button>
   );
