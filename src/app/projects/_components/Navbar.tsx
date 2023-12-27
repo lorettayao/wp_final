@@ -30,6 +30,12 @@ export default async function Navbar() {
       >
         + Create Project
       </Link>
+      <Link
+        className="mx-2 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
+        href="/projects/create2write"
+      >
+        + Writing Practice
+      </Link>
       <section className="flex grow flex-col gap-2 overflow-scroll">
         {projects.length === 0 ? (
           <div className="flex h-10 w-full flex-col items-center justify-between p-2">

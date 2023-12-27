@@ -1,9 +1,9 @@
-import CreateProjectForm from "./_components/CreateProjectForm";
+import WritingBox from "./_components/WritingBox";
 
 export default async function CreateProjectPage() {
   return (
     <main className="h-screen w-full">
-      <CreateProjectForm />
+      <WritingBox />
       
     </main>
   );
