@@ -5,7 +5,7 @@ type Props = {
 };
 export default async function ProjectsLayout({ children }: Props) {
   return (
-    <main className="fixed top-0 flex h-screen w-full ">
+    <main id="full-page" className="fixed top-0 flex h-screen w-full ">
       <Navbar />
       <div className="grow">{children}</div>
     </main>

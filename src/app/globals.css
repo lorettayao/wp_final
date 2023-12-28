@@ -74,3 +74,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+#full-page {
+  background-image: url(./images/paper-bg.png);
+}

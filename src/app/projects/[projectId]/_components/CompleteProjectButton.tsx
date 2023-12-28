@@ -12,7 +12,7 @@ type CompleteProjectProps = {
 // Better if write the function in "../actions" file instead of here
 export default function CompleteProjectButton({ id }: CompleteProjectProps) {
   return (
-    <Button className="bg-green-600 font-serif" onClick={() => console.log("Quiz time!")}>
+    <Button className="bg-green-600 bg-opacity-80 bg-fixed font-serif" onClick={() => console.log("Quiz time!")}>
       Done
     </Button>
   );

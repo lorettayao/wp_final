@@ -24,7 +24,7 @@ export default function CreateProjectForm() {
   const { toast } = useToast();
 
   const year = new Date().getFullYear();
-  const month = new Date().getMonth();
+  const month = new Date().getMonth() + 1;
   const date = new Date().getDate();
   const projectName = [year, month, date].join("-") + " 單字";
 
