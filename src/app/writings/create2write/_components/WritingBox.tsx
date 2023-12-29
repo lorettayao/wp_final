@@ -23,12 +23,6 @@ export default function CreateProjectForm() {
 
   const [isUploading, setIsUploading] = useState(false);
   
-  const [topics, setTopics] = useState([]);
-  useEffect(() => {
-    // Fetch topics when the component mounts
-    setTopics().then((data) => setTopics(data));
-  }, []);
-
 
   const router = useRouter();
   const { toast } = useToast();
@@ -68,32 +62,22 @@ export default function CreateProjectForm() {
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 p-10 overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl">Writing Practice</h1>
-        <div className="flex gap-2">
-          <Button variant={"outline"}>
-            <Link href="/projects">Cancel</Link>
-          </Button>
-          <Button onClick={handleCreate} disabled={isUploading}>
-            Create
-            {isUploading && <Loader2 className="animate-spin" />}
-          </Button>
-        </div>
-      </div>
-      <div className="flex w-full flex-col gap-2">
-        <Label className="text-xl">Topic</Label>
+      
+        
+        {/* add a selection box, the result is passed to projectName */}
         <select
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="" disabled>Select a topic</option>
-          {topics.map((topic) => (
-            <option key={topic} value={topic}>
-              {topic}
-            </option>
-          ))}
-        </select>
+        value={projectName}
+        onChange={(e) => setProjectName(e.target.value)}
+        className="p-2 border rounded"
+      >
+        <option value="" disabled>Select a topic</option>
+        <option value="Topic 1">Topic 1</option>
+        <option value="Topic 2">Topic 2</option>
+        <option value="Topic 3">Topic 3</option>
+      </select>
+        
       </div>
+      
       <div className="flex w-full flex-col gap-2">
         <Label className="text-xl">Writing Box</Label>
         <Textarea
