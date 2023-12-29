@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getWriting } from "./actions";
 import DeleteWritingButton from "./_components/DeleteWritingButton";
-import ChatGPTJudgeButton from "./_components/ChatGPTButton";
+// import ChatGPTJudgeButton from "./_components/ChatGPTButton";
 
 import React from 'react';
 import {} from './actions';

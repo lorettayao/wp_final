@@ -1,18 +1,18 @@
 import { redirect } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 
 import DeleteProjectButton from "./_components/DeleteProjectButton";
 import CompleteProjectButton from "./_components/CompleteProjectButton";
-import HideTranButton from "./_components/HideTranButton";
+// import HideTranButton from "./_components/HideTranButton";
 import TaskItem from "./_components/TaskItem";
-import { addTask, getProject } from "./actions";
+import {  getProject } from "./actions";
 
-import TaskCheckBox from "./_components/TaskCheckBox";
-import DeleteTaskItemButton from "./_components/DeleteTaskButton";
+// import TaskCheckBox from "./_components/TaskCheckBox";
+// import DeleteTaskItemButton from "./_components/DeleteTaskButton";
 
 type Props = {
   params: { projectId: string };

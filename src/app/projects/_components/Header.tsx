@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { getProjects } from "../actions";
+// import { getProjects } from "../actions";
 
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
 import SignOutButton from "./SignOutButton";
-import logoImage from "@/../public/EE-logo-2.png";
+// import logoImage from "@/../public/EE-logo-2.png";
 
 export default async function Header() {
   const session = await auth();

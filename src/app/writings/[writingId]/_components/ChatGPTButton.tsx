@@ -1,7 +1,7 @@
 "use client";
-import OpenAI from "openai";
+// import OpenAI from "openai";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+// import { useState } from "react";
 // import { publicEnv } from "@/lib/env/public";
 // import { openAIEnv } from "@/lib/env/openAI";
 
@@ -23,9 +23,9 @@ type GPTJudgeProps = {
 };
 
 export default function ChatGPTJudgeButton({ title, content }: GPTJudgeProps) {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [judged, setJudged] = useState(false);
-  const [judgeResult, setJudgeResult] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
+  // const [judged, setJudged] = useState(false);
+  // const [judgeResult, setJudgeResult] = useState("");
   // const key = openAIEnv.OPENAI_KEY;
   // const openai = new OpenAI({
   //   apiKey: process.env.OPENAI_KEY, // defaults to process.env["OPENAI_API_KEY"]

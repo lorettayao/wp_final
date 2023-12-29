@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { and, asc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { tasksTable, usersToWritingTable } from "@/db/schema";
+import {  usersToWritingTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
