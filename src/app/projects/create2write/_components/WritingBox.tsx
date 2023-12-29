@@ -30,6 +30,7 @@ export default function CreateProjectForm() {
       const newProject = await createProject(projectName, projectDescription);
 
       // After creating a project, redirect to the project page
+     
       router.push(`/projects/${newProject.id}`);
 
     } catch (error) {
@@ -54,9 +55,9 @@ export default function CreateProjectForm() {
 
   return (
     <div className="flex h-screen w-full flex-col gap-4 p-10">
-      <h1 className="text-3xl">Create a new project</h1>
+      <h1 className="text-3xl">Writing Pratice</h1>
       <div className="flex w-full flex-col gap-2">
-        <Label className="text-xl">Writing Practice</Label>
+        <Label className="text-xl">Topic</Label>
         <Input
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
