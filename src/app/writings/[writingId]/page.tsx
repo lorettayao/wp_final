@@ -21,7 +21,7 @@ export default async function WritingShowPage(props: WritingShowPageProps) {
             <div className="flex items-center justify-between">
                 <div>
                     <div className="flex">
-                        <h1 className="text-3xl font-bold mx-3">{writing.name}</h1>
+                        <h1 className="text-3m font-bold mx-3">{writing.name}</h1>
                         <div className="flex space-x-3 mx-10 my-0.5">
                             <ChatGPTJudgeButton title={writing.name} content={writing.description} />
                             <DeleteWritingButton id={writing.displayId} />
