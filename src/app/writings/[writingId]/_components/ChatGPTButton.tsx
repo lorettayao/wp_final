@@ -38,36 +38,42 @@ export default function ChatGPTJudgeButton({ title, content }: GPTJudgeProps) {
     setJudged(true);
   
     const message = "Title: " + title + "\n" + "Content: " + content + "\n" + "Judge: ";
+    // Construct the URL with the string parameter
+    const chatGPTUrl = `https://chat.openai.com/?s=${encodeURIComponent(message)}`;
+  
+    // Redirect to the ChatGPT page
+    window.location.href = chatGPTUrl;
+    
     // const apiKey = openai.apiKey;
-    const apiKey = "no_key_crycry";
-    const apiUrl = 'https://api.openai.com/v1/chat/completions'; 
-    const input = {
-      model: "gpt-3.5-turbo",
-      messages: [
-        { role: 'system', content: 'You are a helpful judge.' },
-        { role: 'user', content: message },
-        { role: 'assistant', content: 'Hi there! How can I help you today?' },
-      ],
-    };
-    console.log('API Request:', input);
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(input),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('API Response:', data);
-        // Handle the response data as needed
-        setJudgeResult(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setErrorMessage(error);
-      });
+    // const apiKey = "no_key_crycry";
+    // const apiUrl = 'https://api.openai.com/v1/chat/completions'; 
+    // const input = {
+    //   model: "gpt-3.5-turbo",
+    //   messages: [
+    //     { role: 'system', content: 'You are a helpful judge.' },
+    //     { role: 'user', content: message },
+    //     { role: 'assistant', content: 'Hi there! How can I help you today?' },
+    //   ],
+    // };
+    // console.log('API Request:', input);
+    // fetch(apiUrl, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `Bearer ${apiKey}`,
+    //   },
+    //   body: JSON.stringify(input),
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log('API Response:', data);
+    //     // Handle the response data as needed
+    //     setJudgeResult(data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error);
+    //     setErrorMessage(error);
+    //   });
   }
 
   return (

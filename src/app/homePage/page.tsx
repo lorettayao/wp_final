@@ -54,7 +54,7 @@ export default async function ProjectsPage() {
         <Separator className="my-3" />
 
         {/* <p className="text-xl text-gray-600/50 font-serif mx-20">請選擇一份單字</p> */}
-        <section className="flex grow flex-col gap-2 overflow-scroll my-4">
+        <section className="flex grow flex-col gap-2 my-4">
           {projects.length === 0 ? (
             <div className="flex h-10 w-full flex-col items-center justify-between p-2">
               <h3>No Projects</h3>
@@ -76,7 +76,7 @@ export default async function ProjectsPage() {
 
         <Separator className="my-3" />
 
-        <section className="flex grow flex-col gap-2 overflow-scroll my-4">
+        <section className="flex grow flex-col gap-2 my-4">
           {writings.length === 0 ? (
             <div className="flex h-10 w-full flex-col items-center justify-between p-2">
               <h3>No Writings</h3>
