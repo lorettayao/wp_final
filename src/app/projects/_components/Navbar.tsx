@@ -61,7 +61,6 @@ export default async function Navbar() {
       </section>
       <div className="flex w-full items-center justify-between gap-8 px-4 py-2">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
           <span className="text-md font-semibold">
             {
               session?.user?.name || "User"

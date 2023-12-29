@@ -17,32 +17,19 @@ export default async function ProjectsPage() {
   const writings = await getWritings(userId);
 
   return (
-    <main className="flex h-full w-full justify-center border font-serif">
-      <div className="flex-col">
-        <div className="flex h-10 w-full flex-row items-center gap-12 py-8 pt-8">
+    <main className="h-full border font-serif">
+      <div>
+        <div className="flex h-10 items-center py-8 pt-8 my-8">
           <Link href="/homePage">
-            <h2 className="text-5xl font-bold">
+            <h2 className="flex text-5xl font-bold items-center justify-center">
               GRE StudEE
             </h2>
+            <Separator className="my-3 w-screen" />
           </Link>
         </div>
-        <div className="flex-row my-4 justify-center">
-          <Link
-            className="mx-5 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
-            href="/projects/create"
-          >
-            + 今日單字
-          </Link>
-          <Link
-            className="mx-2 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
-            href="/writings/create2write"
-          >
-            + 寫作練習
-          </Link>
-        </div>
+
         <div className="flex gap-6 fixed top-2.5 right-5">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
             <span className="text-md font-semibold">
               {
                 session?.user?.name || "User"
@@ -52,10 +39,72 @@ export default async function ProjectsPage() {
           <SignOutButton />
         </div>
 
-        <Separator className="my-3" />
-        <Rank/>
-        {/* <p className="text-xl text-gray-600/50 font-serif mx-20">請選擇一份單字</p> */}
-        <section className="flex grow flex-col gap-2 my-4">
+        
+        <div className="flex p-4">
+          <div className="flex-1 p-4 rounded-xl border border-black">
+            {/* <h2>Column 1</h2> */}
+            <Link
+              className="mx-5 rounded-xl bg-blue-100 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-300"
+              href="/projects/create"
+            >
+              + 今日單字
+            </Link>
+            <section className="flex grow flex-col gap-2 my-4">
+              {projects.length === 0 ? (
+                <div className="flex h-10 w-full flex-col items-center justify-between p-2">
+                  <h3>No Lists</h3>
+                </div>
+              ) : (
+                projects.map((project) => {
+                  return (
+                    <Link
+                      href={`/projects/${project.id}`}
+                      key={project.id}
+                      className="flex w-full cursor-pointer rounded-xl p-2 pl-6 transition-all hover:bg-gray-200"
+                    >
+                      <h3 className="text-xl">{project.name}</h3>
+                    </Link>
+                  );
+                })
+              )}
+            </section>
+          </div>
+
+          <div className="flex-1 p-4">
+            <h2>Column 2</h2>
+          </div>
+
+          <div className="flex-1 p-4 rounded-xl border border-black">
+            {/* <h2>Column 3</h2> */}
+            <Link
+              className="mx-2 rounded-xl bg-blue-100 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-300"
+              href="/writings/create2write"
+            >
+              + 寫作練習
+            </Link>
+            <section className="flex grow flex-col gap-2 my-4">
+              {writings.length === 0 ? (
+                <div className="flex h-10 w-full flex-col items-center justify-between p-2">
+                  <h3>No Writings</h3>
+                </div>
+              ) : (
+                writings.map((writing) => {
+                  return (
+                    <Link
+                      href={`/writings/${writing.id}`}
+                      key={writing.id}
+                      className="flex w-full cursor-pointer rounded-xl items-center justify-between p-2 pl-6 transition-all hover:bg-gray-200"
+                    >
+                      <h3 className="text-xl">{writing.name}</h3>
+                    </Link>
+                  );
+                })
+              )}
+            </section>
+          </div>
+        </div>
+
+        {/* <section className="flex grow flex-col gap-2 my-4">
           {projects.length === 0 ? (
             <div className="flex h-10 w-full flex-col items-center justify-between p-2">
               <h3>No Projects</h3>
@@ -73,11 +122,9 @@ export default async function ProjectsPage() {
               );
             })
           )}
-        </section>
+        </section> */}
 
-        <Separator className="my-3" />
-
-        <section className="flex grow flex-col gap-2 my-4">
+        {/* <section className="flex grow flex-col gap-2 my-4">
           {writings.length === 0 ? (
             <div className="flex h-10 w-full flex-col items-center justify-between p-2">
               <h3>No Writings</h3>
@@ -95,7 +142,7 @@ export default async function ProjectsPage() {
               );
             })
           )}
-        </section>
+        </section> */}
       </div>
     </main>
   );

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { getProjects } from "../actions";
-
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
@@ -26,7 +24,6 @@ export default async function Header() {
         </Link>
         <div className="flex gap-8 px-4 py-2 fixed top-2.5 right-0">
             <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
             <span className="text-md font-semibold">
                 {
                 session?.user?.name || "User"

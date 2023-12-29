@@ -84,7 +84,7 @@ export default function CreateProjectForm() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full p-10 overflow-y-auto">
+    <div className="flex flex-col min-h-screen w-full p-10 overflow-y-auto font-serif">
   <div className="flex justify-between items-center"> {/* Selection dropdown and buttons */}
     <Select
       options={formattedTopic}

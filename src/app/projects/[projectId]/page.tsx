@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import DeleteProjectButton from "./_components/DeleteProjectButton";
 import CompleteProjectButton from "./_components/CompleteProjectButton";
+import HideTranButton from "./_components/HideTranButton";
 import TaskItem from "./_components/TaskItem";
 import { addTask, getProject } from "./actions";
 
@@ -20,12 +21,9 @@ type Props = {
 export default async function ProjectsPage(props: Props) {
   const userToProject = await getProject(props.params.projectId);
   const project = userToProject?.project;
-  let completed1 = false;
   if (!project) {
     redirect("/projects");
   }
-  const projBigList = getBigList(project.displayId);
-
   return (
     <main className="h-screen w-full overflow-scroll p-8 -my-1.5 font-serif">
       <div className="flex items-center justify-between">
@@ -34,6 +32,16 @@ export default async function ProjectsPage(props: Props) {
           <p className="text-lg">{project.description}</p>
         </div>
         <div className="flex space-x-3">
+          {/* <HideTranButton /> */}
+          {/* {visibility === "visible" ?
+            <Button className="bg-blue-300 bg-opacity-80" onClick={handleClick}>
+              Hide Translation
+            </Button>
+            :
+            <Button className="bg-blue-300 bg-opacity-80" onClick={handleClick}>
+              Show Translation
+            </Button>
+          } */}
           <CompleteProjectButton id={project.displayId} />
           <DeleteProjectButton id={project.displayId} />
         </div>
@@ -41,36 +49,6 @@ export default async function ProjectsPage(props: Props) {
       <Separator className="my-4" />
       <div className="mx-auto w-full max-w-2xl">
         <section>
-
-          {/* CHANGED: comment out the "add task form" section */}
-          {/* <form
-            className="mx-auto flex flex-col gap-4 px-12"
-            action={async (formData) => {
-              "use server";
-
-              const newTask = {
-                projectId: project.displayId,
-                title: formData.get("title"),
-                description: formData.get("description"),
-              };
-
-              // input sanitization done in "addTask" function
-              await addTask(newTask);
-            }}
-          >
-            <div className="flex gap-4">
-              <Input
-                id="task-title-input"
-                // data-testid="task-title-input"
-                placeholder="task title"
-                name="title"
-              />
-              <Button data-testid="add-task-button">add task</Button>
-            </div>
-            <Textarea placeholder="task description" name="description" />
-          </form> */}
-
-          {/* CHANGED: add an example task (since i cannot add tasks now) */}
           {/* for testing purpose BEGIN */}
           {/* for testing purpose END */}
 
@@ -83,6 +61,7 @@ export default async function ProjectsPage(props: Props) {
                 completed={task.completed}
                 title={task.title}
                 description={task.description}
+                // visibility={visibility}
               />
             ))}
           </div>

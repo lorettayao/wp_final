@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 import DeleteTaskItemButton from "./DeleteTaskButton";
 import TaskCheckBox from "./TaskCheckBox";
@@ -24,9 +25,10 @@ export default function TaskItem({
         <TaskCheckBox id={id} projectId={projectId} completed={completed} />
         <div className="w-full">
           <h2 className="text-xl">{title}</h2>
-          <p className="text-gray-400">{description}</p>
+          <p className="text-gray-400 ">{description}</p>
         </div>
-        <DeleteTaskItemButton id={id} projectId={projectId} />
+        {/* <DeleteTaskItemButton id={id} projectId={projectId} /> */}
+        {/* <Button className="bg-blue-300 bg-opacity-80 font-serif">Delete</Button> */}
       </div>
       <Separator className="my-4" />
     </>
