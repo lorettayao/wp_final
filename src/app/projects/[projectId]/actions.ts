@@ -58,8 +58,8 @@ const addTaskSchema = z.object({
 
 export async function addTask(newTask: {
   projectId: string;
-  title: FormDataEntryValue | null;
-  description: FormDataEntryValue | null;
+  title: string | null;
+  description: string | null;
 }) {
   addTaskSchema.parse(newTask);
   const { projectId, title, description } = newTask as z.input<

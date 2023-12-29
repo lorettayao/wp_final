@@ -10,7 +10,6 @@ import { createProject } from "../../actions";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
@@ -33,7 +32,7 @@ export default function CreateProjectForm() {
     setIsUploading(true);
     try {
       const newProject = await createProject(projectName, projectDescription);
-
+      
       // After creating a project, redirect to the project page
       router.push(`/projects/${newProject.id}`);
 

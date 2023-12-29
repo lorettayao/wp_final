@@ -3,16 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { projectsTable, usersToProjectsTable } from "@/db/schema";
+import { projectsTable, usersToProjectsTable, bigListTable, bigListToProjectsTable, globalDictionaryTable } from "@/db/schema";
 import { writingTable, usersToWritingTable } from "@/db/schema";
 
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
+import { addTask } from "./[projectId]/actions";
 
 const createProjectSchema = z.object({
   name: z.string().min(1).max(100),
@@ -63,6 +64,20 @@ export async function createWriting(
   return newWriting;
 }
 
+function getRandomIndices(n:number, max:number) {
+  const indices: number[] = [];
+  // the indices should be unique numbers
+  const min:number = n<max?n:max;
+  console.log("min: ", min);
+  for(let i = 0; i < min; i++) {
+    let rand = Math.floor(Math.random() * max);
+    while(indices.includes(rand)) {
+      rand = Math.floor(Math.random() * max);
+    }
+    indices[i] = rand;
+  }
+  return indices;
+}
 
 export async function createProject(
   name: Project["name"],
@@ -103,7 +118,34 @@ export async function createProject(
       userId: userId,
       projectId: projectId,
     });
-
+    // get all the bigListTable with userId = userId and learned = false
+    const unlearnedBigList = await db
+    .select({
+      id: bigListTable.id,
+      displayId: bigListTable.displayId,
+      wordIndex: bigListTable.wordIndex,
+    })
+    .from(bigListTable)
+    .where(and(eq(bigListTable.userId, userId),
+      eq(bigListTable.learned, false))
+    ) 
+    .execute();
+  
+    const numberOfItems = 7;
+    console.log("unlearnedBigList: ", unlearnedBigList);
+    const randomIndices = getRandomIndices(numberOfItems, unlearnedBigList.length);
+    console.log("randomIndices: ", randomIndices);
+    for(  let i = 0; i < randomIndices.length; i++) {
+      await trx.insert(bigListToProjectsTable).values({
+        projectId: projectId,
+        bigListId: unlearnedBigList[randomIndices[i]].displayId
+      });
+      console.log("added bigListToProjectsTable");
+      const wordAndDef = await getGlobalDictionary(unlearnedBigList[randomIndices[i]].wordIndex); // Await the getGlobalDictionary function call
+      console.log("wordAndDef: ", wordAndDef);
+      await addTask({projectId, title: wordAndDef.word, description: wordAndDef.definition}); // Fix: Add a comma between the properties
+      console.log("added task")
+    }
     return {
       id: projectId,
       name: createdProject.name,
@@ -117,6 +159,21 @@ export async function createProject(
   revalidatePath("/projects");
 
   return newProject;
+}
+export async function getGlobalDictionary(wordIndex: number) {
+  const [globalDictionary] = await db
+  .select({
+    id: globalDictionaryTable.id,
+    word: globalDictionaryTable.word,
+    definition: globalDictionaryTable.definition,
+  })
+  .from(globalDictionaryTable)
+  .where(
+    eq(globalDictionaryTable.id, wordIndex)
+  )
+  .execute();
+
+  return globalDictionary;
 }
 
 export async function getProjects(userId: User["id"]) {
