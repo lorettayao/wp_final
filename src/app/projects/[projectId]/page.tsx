@@ -24,6 +24,7 @@ export default async function ProjectsPage(props: Props) {
   if (!project) {
     redirect("/projects");
   }
+  const projBigList = getBigList(project.displayId);
 
   return (
     <main className="h-screen w-full overflow-scroll p-8 -my-1.5 font-serif">
@@ -71,21 +72,6 @@ export default async function ProjectsPage(props: Props) {
 
           {/* CHANGED: add an example task (since i cannot add tasks now) */}
           {/* for testing purpose BEGIN */}
-          <div className="mt-6">
-            <div className="flex items-center gap-6">
-            <input
-              type="checkbox"
-              className="h-4 w-4"
-              checked={completed1}
-            />
-              <div className="w-full">
-                <h2 className="text-xl">dog</h2>
-                <p className="text-gray-400">狗勾</p>
-              </div>
-              <Button>delete</Button>
-            </div>
-            <Separator className="my-4" />
-          </div>
           {/* for testing purpose END */}
 
           <div className="mt-6">
