@@ -24,7 +24,7 @@ export default async function ProjectsPage() {
             </h2>
           </Link>
         </div>
-        <div className="flex-row my-2 justify-center">
+        <div className="flex-row my-4 justify-center">
           <Link
             className="mx-5 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
             href="/projects/create"
@@ -42,7 +42,7 @@ export default async function ProjectsPage() {
         <Separator className="my-3" />
 
         {/* <p className="text-xl text-gray-600/50 font-serif mx-20">請選擇一份單字</p> */}
-        <section className="flex grow flex-col gap-2 overflow-scroll">
+        <section className="flex grow flex-col gap-2 overflow-scroll my-4">
           {projects.length === 0 ? (
             <div className="flex h-10 w-full flex-col items-center justify-between p-2">
               <h3>No Projects</h3>
@@ -61,8 +61,8 @@ export default async function ProjectsPage() {
             })
           )}
         </section>
-
-        <div className="flex w-full items-center justify-between gap-8 px-4 py-2">
+      </div>
+      <div className="flex gap-6 fixed top-2.5 right-1">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
             <span className="text-md font-semibold">
@@ -73,8 +73,6 @@ export default async function ProjectsPage() {
           </div>
           <SignOutButton />
         </div>
-
-      </div>
     </main>
   );
 }

@@ -18,5 +18,5 @@ export default function SignOutButton() {
       router.push("/");
     }
   }, [session, router]);
-  return <Button className="bg-blue-50 hover:bg-blue-300" variant={"outline"} onClick={handleSignOut}>Sign Out</Button>;
+  return <Button className="bg-blue-50 hover:bg-blue-300 hover:text-white" variant={"outline"} onClick={handleSignOut}>Sign Out</Button>;
 }
