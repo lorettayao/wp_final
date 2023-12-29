@@ -21,7 +21,6 @@ export default async function ProjectsPage(props: Props) {
   const userToProject = await getProject(props.params.projectId);
   const project = userToProject?.project;
   let completed1 = false;
-  let completed2 = false;
   if (!project) {
     redirect("/projects");
   }

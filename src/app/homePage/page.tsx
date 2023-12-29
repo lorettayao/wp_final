@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
           </Link>
           <Link
             className="mx-2 rounded-xl bg-gray-50 px-4 py-2 text-lg drop-shadow-md transition-all hover:bg-gray-200"
-            href="/projects/create2write"
+            href="/writings/create2write"
           >
             + 寫作練習
           </Link>

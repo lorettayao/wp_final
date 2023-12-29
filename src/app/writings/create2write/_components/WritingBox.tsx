@@ -28,14 +28,14 @@ export default function CreateProjectForm() {
   const handleCreate = async () => {
     setIsUploading(true);
     try {
-      const newProject = await createWriting(projectName, projectDescription);
+      const newWriting = await createWriting(projectName, projectDescription);
 
       // After creating a project, redirect to the project page
      
-      // router.push(`/projects/${newProject.id}`);
-      // window.location.href = `/projects/writingshow/${newProject.id}`;
+      // router.push(`/projects/${newWriting.id}`);
+      // window.location.href = `/projects/writingshow/${newWriting.id}`;
       // 用router才不會一直跳掉
-      router.push(`/projects/writingshow/${newProject.id}`);
+      router.push(`/writings/${newWriting.id}`);
       
     } catch (error) {
       if (error instanceof Error) {

@@ -7,47 +7,36 @@ import { and, asc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { tasksTable, usersToProjectsTable } from "@/db/schema";
+import { tasksTable, usersToProjectsTable, usersToWritingTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-export async function getProject(projectId: string) {
+export async function getWriting(writingId: string) {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) {
     redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
   }
 
-  const userToProject = await db.query.usersToProjectsTable.findFirst({
-    // Select the correct project by userId and projectId
+  const userToWriting = await db.query.usersToWritingTable.findFirst({
+    // Select the correct project by userId and writingId
     where: and(
-      eq(usersToProjectsTable.userId, userId),
-      eq(usersToProjectsTable.projectId, projectId)
+      eq(usersToWritingTable.userId, userId),
+      eq(usersToWritingTable.writingId, writingId)
     ),
     columns: {},
     with: {
-      project: {
+      writing: {
         columns: {
           displayId: true,
           description: true,
           name: true,
         },
-        with: {
-          tasks: {
-            columns: {
-              displayId: true,
-              completed: true,
-              description: true,
-              title: true,
-            },
-            orderBy: [asc(tasksTable.id)],
-          },
-        },
       },
     },
   });
 
-  return userToProject;
+  return userToWriting;
 }
 
 const addTaskSchema = z.object({
