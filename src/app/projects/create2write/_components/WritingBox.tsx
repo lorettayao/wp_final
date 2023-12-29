@@ -22,7 +22,7 @@ export default function CreateProjectForm() {
     useState<Project["description"]>("");
 
   const [isUploading, setIsUploading] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
   const { toast } = useToast();
 
   const handleCreate = async () => {
@@ -32,7 +32,8 @@ export default function CreateProjectForm() {
 
       // After creating a project, redirect to the project page
      
-      router.push(`/projects/${newProject.id}`);
+      // router.push(`/projects/${newProject.id}`);
+      window.location.href = `/projects/writingshow/${newProject.id}`;
 
     } catch (error) {
       if (error instanceof Error) {
