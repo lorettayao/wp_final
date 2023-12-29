@@ -17,6 +17,60 @@ const createProjectSchema = z.object({
   description: z.string().optional(),
 });
 
+export async function createWriting(
+  name: Project["name"],
+  description?: Project["description"],
+) {
+  // Check if user is logged in
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
+  }
+
+  // Validate input
+  try {
+    createProjectSchema.parse({
+      name: name,
+      description: description,
+    });
+  } catch (error) {
+    throw new Error(
+      "Project name is required and must be less than 100 chars.",
+    );
+  }
+
+  
+
+  const newProject: Project = await db.transaction(async (trx) => {
+    const [createdProject] = await trx
+      .insert(projectsTable)
+      .values({
+        name: name,
+        description: description,
+      })
+      .returning();
+    const projectId = createdProject.displayId;
+
+    await trx.insert(usersToProjectsTable).values({
+      userId: userId,
+      projectId: projectId,
+    });
+
+    return {
+      id: projectId,
+      name: createdProject.name,
+      description: createdProject.description
+        ? createdProject.description
+        : undefined,
+    };
+  });
+
+  // Update the navbar for the user's projects
+  revalidatePath("/projects");
+
+  return newProject;
+}
 export async function createProject(
   name: Project["name"],
   description?: Project["description"],
@@ -39,6 +93,8 @@ export async function createProject(
       "Project name is required and must be less than 100 chars.",
     );
   }
+
+  
 
   const newProject: Project = await db.transaction(async (trx) => {
     const [createdProject] = await trx

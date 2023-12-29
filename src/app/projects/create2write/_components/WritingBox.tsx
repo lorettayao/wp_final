@@ -5,7 +5,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { createProject } from "../../actions";
+// import { createWriting } from "../../actions2write";
+import { createWriting } from "../../actions";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ export default function CreateProjectForm() {
   const handleCreate = async () => {
     setIsUploading(true);
     try {
-      const newProject = await createProject(projectName, projectDescription);
+      const newProject = await createWriting(projectName, projectDescription);
 
       // After creating a project, redirect to the project page
      
