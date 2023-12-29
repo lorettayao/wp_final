@@ -33,9 +33,9 @@ export default function ChatGPTJudgeButton({ title, content }: GPTJudgeProps) {
   //   dangerouslyAllowBrowser: true
   // });
   const handleJudge = async () => {
-    setErrorMessage("");
-    setJudgeResult("");
-    setJudged(true);
+    // setErrorMessage("");
+    // setJudgeResult("");
+    // setJudged(true);
   
     const message = "Title: " + title + "\n" + "Content: " + content + "\n" + "Judge: ";
     // Construct the URL with the string parameter

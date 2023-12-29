@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 // import { Textarea } from "@/components/ui/textarea";
 
 import DeleteProjectButton from "./_components/DeleteProjectButton";
-import CompleteProjectButton from "./_components/CompleteProjectButton";
+
 // import HideTranButton from "./_components/HideTranButton";
 import TaskItem from "./_components/TaskItem";
 import {  getProject } from "./actions";
@@ -42,7 +42,9 @@ export default async function ProjectsPage(props: Props) {
               Show Translation
             </Button>
           } */}
-          <CompleteProjectButton id={project.displayId} />
+          
+
+
           <DeleteProjectButton id={project.displayId} />
         </div>
       </div>
