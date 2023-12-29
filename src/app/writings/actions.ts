@@ -3,21 +3,18 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
-import { z } from "zod";
+// import { eq } from "drizzle-orm";
+// import { z } from "zod";
 
 import { db } from "@/db";
-import { projectsTable, usersToProjectsTable } from "@/db/schema";
+// import { projectsTable, usersToProjectsTable } from "@/db/schema";
 import { writingTable, usersToWritingTable } from "@/db/schema";
 
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
-import type { Project, User } from "@/lib/types";
+import type { Project } from "@/lib/types";
 
-const createProjectSchema = z.object({
-  name: z.string().min(1).max(100),
-  description: z.string().optional(),
-});
+
 
 export async function createWriting(
   name: string,
@@ -30,9 +27,7 @@ export async function createWriting(
   }
 
   // Validate input
-  if (!name || name.length > 100) {
-    throw new Error("Project name is required and must be less than 100 chars.");
-  }
+  
 
   const newWriting: Project = await db.transaction(async (trx) => {
     const [createdWriting] = await trx

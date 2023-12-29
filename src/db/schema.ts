@@ -44,7 +44,7 @@ export const projectsTable = pgTable(
   {
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("name", { length: 100 }).notNull(),
+    name: varchar("name", { length: 10000 }).notNull(),
     description: text("description"),
   },
   (table) => ({
@@ -134,7 +134,7 @@ export const writingTable = pgTable(
   {
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("name", { length: 100 }).notNull(),
+    name: varchar("name").notNull(),
     description: text("description"),
   },
   (table) => ({
@@ -191,7 +191,7 @@ export const globalTopicTable = pgTable(
   "global_topic",
   {
     id: serial("id").primaryKey(),
-    type: varchar("type", { length: 100 }).notNull(),
+    type: varchar("type", { length: 10000 }).notNull(),
     topic: text("topic").notNull(),
   },
   (table) => ({

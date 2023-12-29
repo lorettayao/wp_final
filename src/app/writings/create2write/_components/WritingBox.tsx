@@ -27,13 +27,28 @@ export default function CreateProjectForm() {
   const topic = [
     "Topic 1",
     "Topic 2",
+    "Topic 3",
   ]
   const formattedTopic = topic.map((name) => ({
     value: name,
     label: name,
   }))
+  const [selectedSpecialString, setSelectedSpecialString] = useState<string>('');
   const handleSelectChange = (selectedOption: { value: string; label: string } | null) => {
-    setProjectName(selectedOption?.value || '');
+    if (selectedOption) {
+      const specialStringMap: Record<string, string> = {
+        'Topic 1': 'Some people believe that the purpose of education is to free the mind and the spirit. Others believe that formal education tends to restrain our minds and spirits rather than set them free./n /n Write a response in which you discuss which view more closely aligns with your own position and explain your reasoning for the position you take. In developing and supporting your position, you should address both of the views presented.',
+        'Topic 2': 'Leaders are created by the demands that are placed on them.Write a response in which you discuss the extent to which you agree or disagree with the statement and explain your reasoning for the position you take. In developing and supporting your position, you should consider ways in which the statement might or might not hold true and explain how these considerations shape your position.',
+        'Topic 3' : 'rfedijnagif'
+        // Add more mappings for other options if needed
+      };
+      const specialString = specialStringMap[selectedOption.value] || '';
+      setProjectName(specialString);
+      setSelectedSpecialString(specialString); // Update the selected special string
+    } else {
+      setProjectName('');
+      setSelectedSpecialString(''); // Clear the selected special string
+    }
   };
 
   const handleCreate = async () => {
@@ -69,35 +84,41 @@ export default function CreateProjectForm() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-4 p-10 overflow-y-auto">
-      <div className="flex justify-between items-center mb-4">
-      
-      <Select
-        options={formattedTopic}
-   
-        value={formattedTopic.find((option) => option.value === projectName)}
-        onChange={handleSelectChange}
-      />
-        
-      </div>
-      
-      <div className="flex w-full flex-col gap-2">
-        <Label className="text-xl">Writing Box</Label>
-        <Textarea
-          rows={10}
-          value={projectDescription}
-          onChange={(e) => setProjectDescription(e.target.value)}
-        />
-      </div>
-      <div className="flex w-full justify-end gap-2">
-        <Button variant={"outline"}>
-          <Link href="/projects">Cancel</Link>
-        </Button>
-        <Button onClick={handleCreate} disabled={isUploading}>
-          Create
-          {isUploading && <Loader2 className="animate-spin" />}
-        </Button>
-      </div>
+    <div className="flex flex-col min-h-screen w-full p-10 overflow-y-auto">
+  <div className="flex justify-between items-center"> {/* Selection dropdown and buttons */}
+    <Select
+      options={formattedTopic}
+      value={formattedTopic.find((option) => option.value === projectName)}
+      onChange={handleSelectChange}
+    />
+    <div className="flex gap-4"> {/* Buttons */}
+      <Button variant={"outline"}>
+        <Link href="/projects">Cancel</Link>
+      </Button>
+      <Button onClick={handleCreate} disabled={isUploading}>
+        Create
+        {isUploading && <Loader2 className="animate-spin" />}
+      </Button>
     </div>
+  </div>
+
+  {selectedSpecialString && <div>{selectedSpecialString}</div>} 
+
+  {/* Writing Box and associated elements */}
+  <div className="flex w-full flex-col gap-2">
+    <Label className="text-xl">Writing Box</Label>
+    <Textarea
+      rows={10}
+      value={projectDescription}
+      onChange={(e) => setProjectDescription(e.target.value)}
+    />
+  </div>
+
+  {/* Additional elements (if any) */}
+  <div className="flex w-full justify-end gap-2">
+    {/* Your additional elements go here */}
+  </div>
+</div>
+
   );
 }
