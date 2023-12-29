@@ -123,13 +123,13 @@ export async function deleteTask(taskId: string, projectId: string) {
   revalidatePath(`/projects/${projectId}`);
 }
 
-const deleteProjectSchema = z.object({
-  projectId: z.string(),
+const deleteWritingSchema = z.object({
+  writingId: z.string(),
 });
 
-export async function deleteProject(projectId: string) {
-  deleteProjectSchema.parse({
-    projectId,
+export async function deleteWriting(writingId: string) {
+  deleteWritingSchema.parse({
+    writingId,
   });
 
   const session = await auth();
@@ -139,14 +139,14 @@ export async function deleteProject(projectId: string) {
   }
 
   await db
-    .delete(usersToProjectsTable)
+    .delete(usersToWritingTable)
     .where(
       and(
-        eq(usersToProjectsTable.projectId, projectId),
-        eq(usersToProjectsTable.userId, userId),
+        eq(usersToWritingTable.writingId, writingId),
+        eq(usersToWritingTable.userId, userId),
       ),
     )
     .returning();
 
-  revalidatePath(`/projects`);
+  revalidatePath(`/homePage`);
 }

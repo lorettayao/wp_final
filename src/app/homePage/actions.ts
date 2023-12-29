@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { projectsTable, usersToProjectsTable } from "@/db/schema";
+import { projectsTable, usersToProjectsTable, usersToWritingTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
@@ -88,4 +88,24 @@ export async function getProjects(userId: User["id"]) {
     name: item.project.name,
   }));
   return projects;
+}
+
+export async function getWritings(userId: User["id"]) {
+  const temp = await db.query.usersToWritingTable.findMany({
+    where: eq(usersToWritingTable.userId, userId),
+    with: {
+      writing: {
+        columns: {
+          displayId: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  const writings: Omit<Project, "description">[] = temp.map((item) => ({
+    id: item.writing.displayId,
+    name: item.writing.name,
+  }));
+  return writings;
 }

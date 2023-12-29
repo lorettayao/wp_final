@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { publicEnv } from "@/lib/env/public";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { getProjects } from "./actions";
+import { getProjects, getWritings } from "./actions";
 import { auth } from "@/lib/auth";
 import SignOutButton from "./_components/SignOutButton";
 
@@ -13,6 +13,7 @@ export default async function ProjectsPage() {
     redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
   }
   const projects = await getProjects(userId);
+  const writings = await getWritings(userId);
 
   return (
     <main className="flex h-full w-full justify-center border font-serif">
@@ -38,6 +39,17 @@ export default async function ProjectsPage() {
             + 寫作練習
           </Link>
         </div>
+        <div className="flex gap-6 fixed top-2.5 right-5">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
+            <span className="text-md font-semibold">
+              {
+                session?.user?.name || "User"
+              }
+            </span>
+          </div>
+          <SignOutButton />
+        </div>
 
         <Separator className="my-3" />
 
@@ -61,18 +73,29 @@ export default async function ProjectsPage() {
             })
           )}
         </section>
+
+        <Separator className="my-3" />
+
+        <section className="flex grow flex-col gap-2 overflow-scroll my-4">
+          {writings.length === 0 ? (
+            <div className="flex h-10 w-full flex-col items-center justify-between p-2">
+              <h3>No Writings</h3>
+            </div>
+          ) : (
+            writings.map((writing) => {
+              return (
+                <Link
+                  href={`/writings/${writing.id}`}
+                  key={writing.id}
+                  className="flex w-full cursor-pointer flex-row items-center justify-between p-2 pl-6 transition-all hover:bg-gray-200"
+                >
+                  <h3 className="text-xl">{writing.name}</h3>
+                </Link>
+              );
+            })
+          )}
+        </section>
       </div>
-      <div className="flex gap-6 fixed top-2.5 right-1">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
-            <span className="text-md font-semibold">
-              {
-                session?.user?.name || "User"
-              }
-            </span>
-          </div>
-          <SignOutButton />
-        </div>
     </main>
   );
 }

@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import { getWriting } from "./actions";
+import { Button } from "@/components/ui/button";
+import DeleteWritingButton from "./_components/DeleteWritingButton";
 
 import React from 'react';
 import {} from './actions';
@@ -24,6 +26,7 @@ export default async function WritingShowPage(props: WritingShowPageProps) {
                 <div className="flex space-x-3">
                 </div>
             </div>
+            <DeleteWritingButton id={writing.displayId} />
         </main>
     );
 }
