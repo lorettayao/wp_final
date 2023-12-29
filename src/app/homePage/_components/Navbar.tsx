@@ -8,7 +8,7 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
 import SignOutButton from "./SignOutButton";
-import logoImage from "@/../public/EE-logo-2.png";
+// import logoImage from "@/../public/EE-logo-2.png";
 
 
 export default async function Navbar() {
@@ -18,14 +18,14 @@ export default async function Navbar() {
     redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
   }
   const projects = await getProjects(userId);
+
   return (
     <nav className="flex min-w-fit flex-col justify-between gap-2 overflow-hidden font-serif">
       <div className="flex h-10 w-full flex-row items-center gap-12 px-6 py-8 pt-8">
-        <Link href="/homePage">
-          <h2 className="text-3xl font-bold">
-            GRE StudEE
-          </h2>
-        </Link>
+        {/* <img src={logoImage.src} alt="Logo Image"/> */}
+      <h2 className="text-3xl font-bold" data-testid="title">
+        GRE StudEE
+      </h2>
       </div>
       <Separator />
       <Link

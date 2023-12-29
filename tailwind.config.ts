@@ -70,10 +70,6 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      // backgroundImage: {
-      //   'dark-bg': "url('/public/bg-2.png')",
-      //   'paper-bg': "url('/public/bg.png')",
-      // },
     },
   },
   plugins: [require("tailwindcss-animate")],
