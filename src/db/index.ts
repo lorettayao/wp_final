@@ -13,9 +13,5 @@ const client = new Client({
 async function connectToDatabase() {
   await client.connect();
 }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 connectToDatabase();
 export const db = drizzle(client, { schema });
