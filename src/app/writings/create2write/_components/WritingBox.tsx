@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
+import Select from "react-select";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +10,7 @@ import { createWriting } from "../../actions";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
@@ -22,10 +22,19 @@ export default function CreateProjectForm() {
     useState<Project["description"]>("");
 
   const [isUploading, setIsUploading] = useState(false);
-  
-
   const router = useRouter();
   const { toast } = useToast();
+  const topic = [
+    "Topic 1",
+    "Topic 2",
+  ]
+  const formattedTopic = topic.map((name) => ({
+    value: name,
+    label: name,
+  }))
+  const handleSelectChange = (selectedOption: { value: string; label: string } | null) => {
+    setProjectName(selectedOption?.value || '');
+  };
 
   const handleCreate = async () => {
     setIsUploading(true);
@@ -63,18 +72,12 @@ export default function CreateProjectForm() {
     <div className="flex min-h-screen w-full flex-col gap-4 p-10 overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
       
-        
-        {/* add a selection box, the result is passed to projectName */}
-        <select
-        value={projectName}
-        onChange={(e) => setProjectName(e.target.value)}
-        className="p-2 border rounded"
-      >
-        <option value="" disabled>Select a topic</option>
-        <option value="Topic 1">Topic 1</option>
-        <option value="Topic 2">Topic 2</option>
-        <option value="Topic 3">Topic 3</option>
-      </select>
+      <Select
+        options={formattedTopic}
+   
+        value={formattedTopic.find((option) => option.value === projectName)}
+        onChange={handleSelectChange}
+      />
         
       </div>
       
