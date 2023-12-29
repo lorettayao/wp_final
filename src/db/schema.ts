@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTable,
   serial,
   text,
@@ -8,6 +9,7 @@ import {
   uuid,
   varchar,
   boolean,
+  date
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable(
@@ -33,6 +35,8 @@ export const usersTable = pgTable(
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
   usersToProjectsTable: many(usersToProjectsTable),
+  bigList: many(bigListTable),
+  usersToWritingTable: many(usersToWritingTable),
 }));
 
 export const projectsTable = pgTable(
@@ -50,6 +54,7 @@ export const projectsTable = pgTable(
 
 export const projectsRelations = relations(projectsTable, ({ many }) => ({
   usersToProjectsTable: many(usersToProjectsTable),
+  bigList: many(bigListTable),
   tasks: many(tasksTable),
 }));
 
@@ -124,13 +129,6 @@ export const tasksRelations = relations(tasksTable, ({ one }) => ({
     references: [projectsTable.displayId],
   }),
 }));
-
-//adding the writing box to the database
-
-export const usersRelations4writing = relations(usersTable, ({ many }) => ({
-  usersToWritingTable: many(usersToWritingTable),
-}));
-
 export const writingTable = pgTable(
   "writing",
   {
@@ -146,8 +144,8 @@ export const writingTable = pgTable(
 
 export const writingRelations = relations(writingTable, ({ many }) => ({
   usersToWritingTable: many(usersToWritingTable),
-  tasks: many(tasksTable),
 }));
+
 
 export const usersToWritingTable = pgTable(
   "users_to_writing",
@@ -171,8 +169,6 @@ export const usersToWritingTable = pgTable(
       table.userId,
       table.writingId,
     ),
-    // This is a unique constraint on the combination of userId and documentId.
-    // This ensures that there is no duplicate entry in the table.
     uniqCombination: unique().on(table.writingId, table.userId),
   }),
 );
@@ -187,6 +183,95 @@ export const usersToWritingRelations = relations(
     user: one(usersTable, {
       fields: [usersToWritingTable.userId],
       references: [usersTable.displayId],
+    }),
+  }),
+);
+
+export const bigListTable = pgTable(
+  "big_list",
+  {
+    id: serial("id").primaryKey(),
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => usersTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    wordIndex: integer("word_index").notNull(),
+    learned: boolean("learned").notNull().default(false),
+    learnedDate: date("learned_date"),
+  },
+  (table) => ({
+    displayIdIndex: index("display_id_index").on(table.displayId),
+    userIdIndex: index("user_id_index").on(table.userId),
+    wordIndexIndex: index("word_index_index").on(table.wordIndex),
+  })
+);
+
+export const bigListRelations = relations(bigListTable, ({ one , many}) => ({
+  user: one(usersTable, {
+    fields: [bigListTable.displayId],
+    references: [usersTable.displayId],
+  }),
+  globalDictionary: one(globalDictionaryTable, {
+    fields: [bigListTable.id],
+    references: [globalDictionaryTable.id],
+  }),
+  projects: many(projectsTable),
+}));
+
+export const globalDictionaryTable = pgTable(
+  "global_dictionary",
+  {
+    id: serial("id").primaryKey(),
+    word: varchar("word", { length: 100 }).notNull(),
+    definition: text("definition").notNull(),
+  },
+  (table) => ({
+    displayIdIndex: index("display_id_index").on(table.id),
+  })
+);
+
+export const globalDictionaryRelations = relations(globalDictionaryTable, ({ many }) => ({
+  bigList: many(bigListTable),
+}));
+
+export const bigListToProjectsTable = pgTable(
+  "big_list_to_projects",
+  {
+    id: serial("id").primaryKey(),
+    bigListId: uuid("big_list_id")
+      .notNull()
+      .references(() => bigListTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projectsTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+  },
+  (table) => ({
+    bigListAndProjectIndex: index("big_list_and_project_index").on(
+      table.bigListId,
+      table.projectId,
+    ),
+    uniqCombination: unique().on(table.bigListId, table.projectId),
+  }),
+);
+export const bigListToProjectsRelations = relations(
+  bigListToProjectsTable,
+  ({ one }) => ({
+    project: one(projectsTable, {
+      fields: [bigListToProjectsTable.projectId],
+      references: [projectsTable.displayId],
+    }),
+    bigList: one(bigListTable, {
+      fields: [bigListToProjectsTable.bigListId],
+      references: [bigListTable.displayId],
     }),
   }),
 );
