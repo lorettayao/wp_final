@@ -1,6 +1,6 @@
 "use client";
 
-import { updateTaskComplete } from "../actions";
+import { updateBigListComplete } from "../actions";
 
 type TaskCheckBoxProps = {
   id: string;
@@ -19,7 +19,7 @@ export default function TaskCheckBox({
       className="h-4 w-4"
       checked={completed}
       onChange={async (event) => {
-        await updateTaskComplete(id, projectId, event.target.checked);
+        await updateBigListComplete(id, projectId, event.target.checked);
       }}
     />
   );

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getProjects, getWritings } from "./actions";
 import { auth } from "@/lib/auth";
 import SignOutButton from "./_components/SignOutButton";
-import Rank from "./_components/rank";
 
 export default async function ProjectsPage() {
   const session = await auth();

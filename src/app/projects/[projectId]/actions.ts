@@ -7,10 +7,33 @@ import { and, asc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { tasksTable, usersToProjectsTable } from "@/db/schema";
+import { tasksTable, usersToProjectsTable, bigListToProjectsTable, bigListTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
+export async function getBigList(displayId:string){
+  const bL = await db.query.bigListTable.findFirst({
+    where: eq(bigListTable.displayId, displayId),
+    columns: {
+      displayId: true,
+      learned: true,
+      learnedDate: true,
+      wordIndex: true,
+    }
+  });
+  return bL;
+}
 
+export async function getProjBigListId(projectId: string) {
+  const bigListToProject = await db
+    .select({
+      bigListId: bigListToProjectsTable.bigListId,
+    })
+    .from(bigListToProjectsTable)
+    .where(eq(bigListToProjectsTable.projectId, projectId))
+    .execute();
+
+  return bigListToProject;
+}
 export async function getProject(projectId: string) {
   const session = await auth();
   const userId = session?.user?.id;
@@ -84,30 +107,31 @@ export async function addTask(newTask: {
   revalidatePath(`/projects/${projectId}`);
 }
 
-const updateTaskCmpleteSchema = z.object({
-  taskId: z.string(),
+const updateBigListCompleteSchema = z.object({
+  bigListId: z.string(),
   projectId: z.string(),
-  completed: z.boolean(),
+  learned: z.boolean(),
 });
 
-export async function updateTaskComplete(
-  taskId: string,
+export async function updateBigListComplete(
+  bigListId: string,
   projectId: string,
-  completed: boolean,
+  learned: boolean,
 ) {
-  updateTaskCmpleteSchema.parse({
+  updateBigListCompleteSchema.parse({
     projectId,
-    taskId,
-    completed,
+    bigListId,
+    learned,
   });
 
   // Update the task's `completed` column
   await db
-  .update(tasksTable)
+  .update(bigListTable)
   .set({
-    completed: completed
+    learned: learned,
+    learnedDate: learned ? new Date().toISOString() : null,
   })
-  .where(eq(tasksTable.displayId, taskId))
+  .where(eq(bigListTable.displayId, bigListId))
   .returning();
   
 
