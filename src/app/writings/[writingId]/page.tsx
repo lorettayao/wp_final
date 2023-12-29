@@ -17,20 +17,22 @@ export default async function WritingShowPage(props: WritingShowPageProps) {
     }
     // TODO: Change the outlook of the writing-showing page in this file.
     return (
-        <main className="h-screen w-full overflow-scroll p-8 -my-1.5 font-serif">
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex w-full h-14 p-2 -my-1">
-                        <h1 className="text-3xl font-bold mx-3">{writing.name}</h1>
-                        <div className="object-right-top my-0.5">
-                            {/* <ChatGPTJudgeButton title={writing.name} content={writing.description} /> */}
-                            <DeleteWritingButton id={writing.displayId} />
-                        </div>
-                    </div>
-                <p className="text-lg mx-6 my-5">{writing.description}</p>
-                </div>
-            </div>
-            
-        </main>
+<main className="h-screen w-full overflow-hidden p-8 font-serif">
+  <div className="flex flex-col h-full">
+  <div className="ml-auto">
+        <DeleteWritingButton id={writing.displayId} />
+      </div>
+    <div className="flex items-center justify-between bg-gray-200 p-4 mb-4">
+      <h1 className="text-3xl font-bold">{writing.name}</h1>
+      
+    </div>
+    <div className="flex-1 overflow-y-auto">
+      <p className="text-lg mx-6 my-5">{writing.description}</p>
+    </div>
+  </div>
+</main>
+
+
+
     );
 }

@@ -71,7 +71,8 @@ export default async function ProjectsPage() {
           </div>
 
           <div className="flex-1 p-4">
-            <h2>Column 2</h2>
+            {/* <h2>Column 2</h2> */}
+            <Rank />
           </div>
 
           <div className="flex-1 p-4 rounded-xl border border-black">
