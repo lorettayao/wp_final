@@ -187,6 +187,18 @@ export const usersToWritingRelations = relations(
   }),
 );
 
+export const globalTopicTable = pgTable(
+  "global_topic",
+  {
+    id: serial("id").primaryKey(),
+    type: varchar("type", { length: 100 }).notNull(),
+    topic: text("topic").notNull(),
+  },
+  (table) => ({
+    displayIdIndex: index("display_id_index").on(table.id),
+  })
+);
+
 export const bigListTable = pgTable(
   "big_list",
   {

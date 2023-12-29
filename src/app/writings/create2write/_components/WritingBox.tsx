@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,14 @@ export default function CreateProjectForm() {
     useState<Project["description"]>("");
 
   const [isUploading, setIsUploading] = useState(false);
+  
+  const [topics, setTopics] = useState([]);
+  useEffect(() => {
+    // Fetch topics when the component mounts
+    setTopics().then((data) => setTopics(data));
+  }, []);
+
+
   const router = useRouter();
   const { toast } = useToast();
 
@@ -73,10 +81,18 @@ export default function CreateProjectForm() {
       </div>
       <div className="flex w-full flex-col gap-2">
         <Label className="text-xl">Topic</Label>
-        <Input
+        <select
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
-        />
+          className="p-2 border rounded"
+        >
+          <option value="" disabled>Select a topic</option>
+          {topics.map((topic) => (
+            <option key={topic} value={topic}>
+              {topic}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="flex w-full flex-col gap-2">
         <Label className="text-xl">Writing Box</Label>
