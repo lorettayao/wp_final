@@ -26,7 +26,7 @@ export default async function ProjectsPage(props: Props) {
   }
 
   return (
-    <main className="h-screen w-full overflow-hidden p-8 -my-1.5 font-serif">
+    <main className="h-screen w-full overflow-scroll p-8 -my-1.5 font-serif">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">{project.name}</h1>
