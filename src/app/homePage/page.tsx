@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getProjects, getWritings } from "./actions";
 import { auth } from "@/lib/auth";
 import SignOutButton from "./_components/SignOutButton";
+import Rank from "./_components/rank";
 
 export default async function ProjectsPage() {
   const session = await auth();
@@ -52,7 +53,7 @@ export default async function ProjectsPage() {
         </div>
 
         <Separator className="my-3" />
-
+        <Rank/>
         {/* <p className="text-xl text-gray-600/50 font-serif mx-20">請選擇一份單字</p> */}
         <section className="flex grow flex-col gap-2 my-4">
           {projects.length === 0 ? (
