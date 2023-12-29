@@ -1,0 +1,43 @@
+/* Rank.css */
+
+.rank-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f8ff; /* Light blue background color */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rank-heading {
+    color: #008080; /* Teal color for the heading */
+  }
+  
+  .refresh-button {
+    background-color: #4da6ff; /* Light blue button color */
+    color: #ffffff; /* White text color */
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  .rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  .rank-table th, .rank-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .rank-table th {
+    background-color: #008080; /* Teal color for table header */
+    color: #ffffff; /* White text color */
+  }
+  
