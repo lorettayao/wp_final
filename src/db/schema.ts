@@ -81,6 +81,8 @@ export const usersToProjectsTable = pgTable(
   }),
 );
 
+
+
 export const usersToProjectsRelations = relations(
   usersToProjectsTable,
   ({ one }) => ({
@@ -122,3 +124,69 @@ export const tasksRelations = relations(tasksTable, ({ one }) => ({
     references: [projectsTable.displayId],
   }),
 }));
+
+//adding the writing box to the database
+
+export const usersRelations4writing = relations(usersTable, ({ many }) => ({
+  usersToWritingTable: many(usersToWritingTable),
+}));
+
+export const writingTable = pgTable(
+  "writing",
+  {
+    id: serial("id").primaryKey(),
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
+    name: varchar("name", { length: 100 }).notNull(),
+    description: text("description"),
+  },
+  (table) => ({
+    displayIdIndex: index("display_id_index").on(table.displayId),
+  }),
+);
+
+export const writingRelations = relations(writingTable, ({ many }) => ({
+  usersToWritingTable: many(usersToWritingTable),
+  tasks: many(tasksTable),
+}));
+
+export const usersToWritingTable = pgTable(
+  "users_to_writing",
+  {
+    id: serial("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => usersTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    writingId: uuid("writing_id")
+      .notNull()
+      .references(() => writingTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+  },
+  (table) => ({
+    userAndDocumentIndex: index("user_and_document_index").on(
+      table.userId,
+      table.writingId,
+    ),
+    // This is a unique constraint on the combination of userId and documentId.
+    // This ensures that there is no duplicate entry in the table.
+    uniqCombination: unique().on(table.writingId, table.userId),
+  }),
+);
+
+export const usersToWritingRelations = relations(
+  usersToWritingTable,
+  ({ one }) => ({
+    writing: one(writingTable, {
+      fields: [usersToWritingTable.writingId],
+      references: [writingTable.displayId],
+    }),
+    user: one(usersTable, {
+      fields: [usersToWritingTable.userId],
+      references: [usersTable.displayId],
+    }),
+  }),
+);

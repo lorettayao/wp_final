@@ -8,6 +8,8 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { projectsTable, usersToProjectsTable } from "@/db/schema";
+import { writingTable, usersToWritingTable } from "@/db/schema";
+
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
@@ -18,10 +20,9 @@ const createProjectSchema = z.object({
 });
 
 export async function createWriting(
-  name: Project["name"],
-  description?: Project["description"],
-) {
-  // Check if user is logged in
+  name: string,
+  description?: string,
+): Promise<Project> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) {
@@ -29,48 +30,40 @@ export async function createWriting(
   }
 
   // Validate input
-  try {
-    createProjectSchema.parse({
-      name: name,
-      description: description,
-    });
-  } catch (error) {
-    throw new Error(
-      "Project name is required and must be less than 100 chars.",
-    );
+  if (!name || name.length > 100) {
+    throw new Error("Project name is required and must be less than 100 chars.");
   }
 
-  
-
-  const newProject: Project = await db.transaction(async (trx) => {
-    const [createdProject] = await trx
-      .insert(projectsTable)
+  const newWriting: Project = await db.transaction(async (trx) => {
+    const [createdWriting] = await trx
+      .insert(writingTable)
       .values({
         name: name,
         description: description,
       })
       .returning();
-    const projectId = createdProject.displayId;
+    const writingId = createdWriting.displayId;
 
-    await trx.insert(usersToProjectsTable).values({
+    await trx.insert(usersToWritingTable).values({
       userId: userId,
-      projectId: projectId,
+      writingId: writingId,
     });
 
     return {
-      id: projectId,
-      name: createdProject.name,
-      description: createdProject.description
-        ? createdProject.description
+      id: writingId,
+      name: createdWriting.name,
+      description: createdWriting.description
+        ? createdWriting.description
         : undefined,
     };
   });
 
-  // Update the navbar for the user's projects
   revalidatePath("/projects");
 
-  return newProject;
+  return newWriting;
 }
+
+
 export async function createProject(
   name: Project["name"],
   description?: Project["description"],
