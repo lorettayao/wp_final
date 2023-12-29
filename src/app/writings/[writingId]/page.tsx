@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
-import { addTask, getWriting } from "./actions";
+import { getWriting } from "./actions";
 
 import React from 'react';
 import {} from './actions';
@@ -9,7 +8,7 @@ interface WritingShowPageProps {
     params: { writingId: string };
 }
 export default async function WritingShowPage(props: WritingShowPageProps) {
-    const userToProject = await getWriting(props.params.writingId); //TODO: 改寫 getWriting function
+    const userToProject = await getWriting(props.params.writingId);
     const writing = userToProject?.writing;
     if (!writing) {
       redirect("/writings");
