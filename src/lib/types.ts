@@ -11,6 +11,20 @@ export type Project = {
   description?: string;
 };
 
+export type BigList = {
+  id: string;
+  userId: string;
+  wordIndex: string;
+  learned: boolean;
+  learnedDate?: Date;
+};
+
+export type GlobalDictionary = {
+  id: string;
+  word: string;
+  definition: string;
+};
+
 export type Task = {
   id: string;
   title: string;
