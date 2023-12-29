@@ -33,8 +33,10 @@ export default function CreateProjectForm() {
       // After creating a project, redirect to the project page
      
       // router.push(`/projects/${newProject.id}`);
-      window.location.href = `/projects/writingshow/${newProject.id}`;
-
+      // window.location.href = `/projects/writingshow/${newProject.id}`;
+      // 用router才不會一直跳掉
+      router.push(`/projects/writingshow/${newProject.id}`);
+      
     } catch (error) {
       if (error instanceof Error) {
         toast({
