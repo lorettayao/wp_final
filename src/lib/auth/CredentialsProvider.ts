@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { usersTable } from "@/db/schema";
+import { usersTable, bigListTable, globalDictionaryTable } from "@/db/schema";
 
 const authSchema = z.object({
   name: z.string().max(100).optional(),
@@ -52,7 +52,7 @@ export default CredentialsProvider({
         return null;
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-
+      
       const [createdUser] = await db
         .insert(usersTable)
         .values({
@@ -62,7 +62,22 @@ export default CredentialsProvider({
           provider: "credentials",
         })
         .returning();
-      return {
+
+      const globalDictionary = await db
+        .select({
+          id: globalDictionaryTable.id,
+        })
+        .from(globalDictionaryTable)
+        .execute();
+
+      const bigList = globalDictionary.map((item) => ({
+        userId: createdUser.displayId,
+        wordIndex: item.id,
+        learned: false,
+      }));
+      await db.insert(bigListTable).values(bigList).returning();
+
+        return {
         email: createdUser.email,
         name: createdUser.name,
         id: createdUser.displayId,
