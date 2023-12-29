@@ -68,7 +68,6 @@ function getRandomIndices(n:number, max:number) {
   const indices: number[] = [];
   // the indices should be unique numbers
   const min:number = n<max?n:max;
-  console.log("min: ", min);
   for(let i = 0; i < min; i++) {
     let rand = Math.floor(Math.random() * max);
     while(indices.includes(rand)) {
@@ -132,19 +131,14 @@ export async function createProject(
     .execute();
   
     const numberOfItems = 7;
-    console.log("unlearnedBigList: ", unlearnedBigList);
     const randomIndices = getRandomIndices(numberOfItems, unlearnedBigList.length);
-    console.log("randomIndices: ", randomIndices);
     for(  let i = 0; i < randomIndices.length; i++) {
       await trx.insert(bigListToProjectsTable).values({
         projectId: projectId,
         bigListId: unlearnedBigList[randomIndices[i]].displayId
       });
-      console.log("added bigListToProjectsTable");
       const wordAndDef = await getGlobalDictionary(unlearnedBigList[randomIndices[i]].wordIndex); // Await the getGlobalDictionary function call
-      console.log("wordAndDef: ", wordAndDef);
       await addTask({projectId, title: wordAndDef.word, description: wordAndDef.definition}); // Fix: Add a comma between the properties
-      console.log("added task")
     }
     return {
       id: projectId,

@@ -44,7 +44,7 @@ export const projectsTable = pgTable(
   {
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("name", { length: 10000 }).notNull(),
+    name: varchar("name", { length: 100 }).notNull(),
     description: text("description"),
   },
   (table) => ({
