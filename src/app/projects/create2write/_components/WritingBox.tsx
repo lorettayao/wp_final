@@ -22,7 +22,7 @@ export default function CreateProjectForm() {
     useState<Project["description"]>("");
 
   const [isUploading, setIsUploading] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
   const { toast } = useToast();
 
   const handleCreate = async () => {
@@ -56,8 +56,19 @@ export default function CreateProjectForm() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col gap-4 p-10">
-      <h1 className="text-3xl">Writing Pratice</h1>
+    <div className="flex min-h-screen w-full flex-col gap-4 p-10 overflow-y-auto">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl">Writing Practice</h1>
+        <div className="flex gap-2">
+          <Button variant={"outline"}>
+            <Link href="/projects">Cancel</Link>
+          </Button>
+          <Button onClick={handleCreate} disabled={isUploading}>
+            Create
+            {isUploading && <Loader2 className="animate-spin" />}
+          </Button>
+        </div>
+      </div>
       <div className="flex w-full flex-col gap-2">
         <Label className="text-xl">Topic</Label>
         <Input

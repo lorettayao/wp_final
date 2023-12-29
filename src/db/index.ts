@@ -10,5 +10,9 @@ const client = new Client({
 
   connectionTimeoutMillis: 5000,
 });
-await client.connect();
+async function connectToDatabase() {
+  await client.connect();
+}
+
+connectToDatabase();
 export const db = drizzle(client, { schema });
