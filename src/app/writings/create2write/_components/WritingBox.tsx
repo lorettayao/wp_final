@@ -37,7 +37,7 @@ export default function CreateProjectForm() {
   const handleSelectChange = (selectedOption: { value: string; label: string } | null) => {
     if (selectedOption) {
       const specialStringMap: Record<string, string> = {
-        'Topic 1': 'Some people believe that the purpose of education is to free the mind and the spirit. Others believe that formal education tends to restrain our minds and spirits rather than set them free./n /n Write a response in which you discuss which view more closely aligns with your own position and explain your reasoning for the position you take. In developing and supporting your position, you should address both of the views presented.',
+        'Topic 1': 'Some people believe that the purpose of education is to free the mind and the spirit. Others believe that formal education tends to restrain our minds and spirits rather than set them free. Write a response in which you discuss which view more closely aligns with your own position and explain your reasoning for the position you take. In developing and supporting your position, you should address both of the views presented.',
         'Topic 2': 'Leaders are created by the demands that are placed on them.Write a response in which you discuss the extent to which you agree or disagree with the statement and explain your reasoning for the position you take. In developing and supporting your position, you should consider ways in which the statement might or might not hold true and explain how these considerations shape your position.',
         'Topic 3' : 'rfedijnagif'
         // Add more mappings for other options if needed

@@ -71,7 +71,8 @@ export default async function ProjectsPage() {
           </div>
 
           <div className="flex-1 p-4">
-            <h2>Column 2</h2>
+            {/* <h2>Column 2</h2> */}
+            <Rank />
           </div>
 
           <div className="flex-1 p-4 rounded-xl border border-black">
@@ -93,9 +94,9 @@ export default async function ProjectsPage() {
                     <Link
                       href={`/writings/${writing.id}`}
                       key={writing.id}
-                      className="flex w-full cursor-pointer rounded-xl items-center justify-between p-2 pl-6 transition-all hover:bg-gray-200"
+                      className="flex w-full cursor-pointer rounded-xl p-2 pl-6 transition-all hover:bg-gray-200 max-w-md overflow-hidden"
                     >
-                      <h3 className="text-xl">{writing.name}</h3>
+                      <h3 className="text-xl text-overflow-ellipsis overflow-ellipsis whitespace-nowrap">{writing.name}</h3>
                     </Link>
                   );
                 })
@@ -103,46 +104,6 @@ export default async function ProjectsPage() {
             </section>
           </div>
         </div>
-
-        {/* <section className="flex grow flex-col gap-2 my-4">
-          {projects.length === 0 ? (
-            <div className="flex h-10 w-full flex-col items-center justify-between p-2">
-              <h3>No Projects</h3>
-            </div>
-          ) : (
-            projects.map((project) => {
-              return (
-                <Link
-                  href={`/projects/${project.id}`}
-                  key={project.id}
-                  className="flex w-full cursor-pointer flex-row items-center justify-between p-2 pl-6 transition-all hover:bg-gray-200"
-                >
-                  <h3 className="text-xl">{project.name}</h3>
-                </Link>
-              );
-            })
-          )}
-        </section> */}
-
-        {/* <section className="flex grow flex-col gap-2 my-4">
-          {writings.length === 0 ? (
-            <div className="flex h-10 w-full flex-col items-center justify-between p-2">
-              <h3>No Writings</h3>
-            </div>
-          ) : (
-            writings.map((writing) => {
-              return (
-                <Link
-                  href={`/writings/${writing.id}`}
-                  key={writing.id}
-                  className="flex w-full cursor-pointer flex-row items-center justify-between p-2 pl-6 transition-all hover:bg-gray-200"
-                >
-                  <h3 className="text-xl">{writing.name}</h3>
-                </Link>
-              );
-            })
-          )}
-        </section> */}
       </div>
     </main>
   );
