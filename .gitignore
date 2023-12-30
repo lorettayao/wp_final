@@ -47,3 +47,5 @@ next-env.d.ts
 
 # gradescope
 *.zip
+.env.local
+.env
