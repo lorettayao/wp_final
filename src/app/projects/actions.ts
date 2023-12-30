@@ -19,50 +19,6 @@ const createProjectSchema = z.object({
   description: z.string().optional(),
 });
 
-export async function createWriting(
-  name: string,
-  description?: string,
-): Promise<Project> {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
-  }
-
-  // Validate input
-  if (!name || name.length > 100) {
-    throw new Error("Project name is required and must be less than 100 chars.");
-  }
-
-  const newWriting: Project = await db.transaction(async (trx) => {
-    const [createdWriting] = await trx
-      .insert(writingTable)
-      .values({
-        name: name,
-        description: description,
-      })
-      .returning();
-    const writingId = createdWriting.displayId;
-
-    await trx.insert(usersToWritingTable).values({
-      userId: userId,
-      writingId: writingId,
-    });
-
-    return {
-      id: writingId,
-      name: createdWriting.name,
-      description: createdWriting.description
-        ? createdWriting.description
-        : undefined,
-    };
-  });
-
-  revalidatePath("/projects");
-
-  return newWriting;
-}
-
 function getRandomIndices(n:number, max:number) {
   const indices: number[] = [];
   // the indices should be unique numbers
@@ -96,11 +52,10 @@ export async function createProject(
     });
   } catch (error) {
     throw new Error(
-      "Project name is required and must be less than 100 chars.",
+      "List name is required and must be less than 100 chars.",
     );
   }
 
-  
 
   const newProject: Project = await db.transaction(async (trx) => {
     const [createdProject] = await trx
@@ -151,6 +106,8 @@ export async function createProject(
 
   return newProject;
 }
+
+
 export async function getGlobalDictionary(wordIndex: number) {
   const [globalDictionary] = await db
   .select({

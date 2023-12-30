@@ -120,23 +120,3 @@ export async function deleteProject(projectId: string) {
 
   revalidatePath(`/projects`);
 }
-
-// export async function getCompletedTasks(projectId: string) {
-//   const completedTasks = await db
-//     .select({
-//       bigListId: bigListToProjectsTable.bigListId,
-//       learnedDate: bigListTable.learnedDate,
-//     })
-//     .from(bigListToProjectsTable)
-//     .innerJoin(bigListTable)
-//     .on(
-//       and(
-//         eq(bigListToProjectsTable.bigListId, bigListTable.displayId),
-//         eq(bigListToProjectsTable.projectId, projectId),
-//       ),
-//     )
-//     .where(eq(bigListTable.learned, true))
-//     .execute();
-
-//   return completedTasks;
-// }

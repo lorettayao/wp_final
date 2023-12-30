@@ -1,19 +1,23 @@
 import { redirect } from "next/navigation";
+import { publicEnv } from "@/lib/env/public";
 
 import { Separator } from "@/components/ui/separator";
 
-import DeleteProjectButton from "./_components/DeleteProjectButton";
-import DoneProjectButton from "./_components/DoneProjectButton";
-import TaskItem from "./_components/TaskItem";
+// import TaskItem from "../_components/TaskItem";
+import QuizTaskItem from "./_components/QuizTaskItem";
+import { Button } from "@/components/ui/button";
+import QuitButton from "./_components/QuitButton";
+import SubmitButton from "./_components/SubmitButton";
 import { getBigList ,getProjBigListId, getProject } from "./actions";
 
-import { getGlobalDictionary } from "../actions";
+import { getGlobalDictionary } from "../../actions";
 type Props = {
   params: { projectId: string };
 };
 
-export default async function ProjectsPage(props: Props) {
-  const userToProject = await getProject(props.params.projectId);
+export default async function QuizPage(props: Props) {
+  const projectId = props.params.projectId;
+  const userToProject = await getProject(projectId);
   const project = userToProject?.project;
   if (!project) {
     redirect("/projects");
@@ -31,32 +35,29 @@ export default async function ProjectsPage(props: Props) {
   }
   const fakeTasks = [];
   for (let i = 0; i < projBigList.length; i++) {
-    fakeTasks[i] = {
-      displayId: bigListTask[i].displayId,
-      title: bigListDict[i].word,
-      description: bigListDict[i].definition,
-      completed: bigListTask[i].learned,
-      id: bigListTask[i].wordIndex,
+    if (bigListTask[i].learned==true) {
+      let item = {
+        displayId: bigListTask[i].displayId,
+        title: bigListDict[i].word,
+        description: bigListDict[i].definition,
+        completed: bigListTask[i].learned,
+        id: bigListTask[i].wordIndex,
+      }
+      fakeTasks.push(item);
     }
   }
+
   return (
     <main className="h-screen w-full overflow-scroll p-8 -my-1.5 font-serif">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{project.name}</h1>
-          <p className="text-lg">{project.description}</p>
-        </div>
-        <div className="flex space-x-3">
-          <DoneProjectButton id={project.displayId} />
-          <DeleteProjectButton id={project.displayId} />
-        </div>
+      <div className="flex p-5">
+        <h1 className="font-bold text-3xl mx-10"> {project.name} Quiz </h1>
+        <QuitButton id={projectId} />
       </div>
-      <Separator className="my-4" />
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-2xl my-10">
         <section>
           <div className="mt-6">
             {fakeTasks.map((task) => (
-              <TaskItem
+              <QuizTaskItem
                 key={task.displayId}
                 id={task.displayId}
                 projectId={project.displayId}
