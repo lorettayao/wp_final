@@ -55,7 +55,6 @@ export const projectsTable = pgTable(
 export const projectsRelations = relations(projectsTable, ({ many }) => ({
   usersToProjectsTable: many(usersToProjectsTable),
   bigList: many(bigListTable),
-  tasks: many(tasksTable),
 }));
 
 export const usersToProjectsTable = pgTable(
@@ -102,33 +101,6 @@ export const usersToProjectsRelations = relations(
   }),
 );
 
-export const tasksTable = pgTable(
-  "tasks",
-  {
-    id: serial("id").primaryKey(),
-    completed: boolean("completed").notNull().default(false),
-    displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    title: varchar("title", { length: 100 }).notNull(),
-    description: text("description"),
-    projectId: uuid("project_id")
-      .notNull()
-      .references(() => projectsTable.displayId, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
-  },
-  (table) => ({
-    displayIdIndex: index("display_id_index").on(table.displayId),
-    projectIdIndex: index("project_id_index").on(table.projectId),
-  }),
-);
-
-export const tasksRelations = relations(tasksTable, ({ one }) => ({
-  project: one(projectsTable, {
-    fields: [tasksTable.projectId],
-    references: [projectsTable.displayId],
-  }),
-}));
 export const writingTable = pgTable(
   "writing",
   {

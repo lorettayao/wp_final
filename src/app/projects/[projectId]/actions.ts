@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { and, asc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { tasksTable, usersToProjectsTable, bigListToProjectsTable, bigListTable } from "@/db/schema";
+import { usersToProjectsTable, bigListToProjectsTable, bigListTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 export async function getBigList(displayId:string){
@@ -55,56 +55,11 @@ export async function getProject(projectId: string) {
           description: true,
           name: true,
         },
-        with: {
-          tasks: {
-            columns: {
-              displayId: true,
-              completed: true,
-              description: true,
-              title: true,
-            },
-            orderBy: [asc(tasksTable.id)],
-          },
-        },
       },
     },
   });
 
   return userToProject;
-}
-
-const addTaskSchema = z.object({
-  projectId: z.string(),
-  title: z.string(),
-  description: z.string(),
-});
-
-export async function addTask(newTask: {
-  projectId: string;
-  title: string | null;
-  description: string | null;
-}) {
-  addTaskSchema.parse(newTask);
-  const { projectId, title, description } = newTask as z.input<
-    typeof addTaskSchema
-  >;
-
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
-  }
-
-  await db
-    .insert(tasksTable)
-    .values({
-      projectId,
-      title,
-      description,
-    })
-    .returning();
-
-  revalidatePath(`/projects/${projectId}`);
 }
 
 const updateBigListCompleteSchema = z.object({
@@ -124,7 +79,6 @@ export async function updateBigListComplete(
     learned,
   });
 
-  // Update the task's `completed` column
   await db
   .update(bigListTable)
   .set({
@@ -134,26 +88,6 @@ export async function updateBigListComplete(
   .where(eq(bigListTable.displayId, bigListId))
   .returning();
   
-
-  revalidatePath(`/projects/${projectId}`);
-}
-
-const deleteTaskSchema = z.object({
-  taskId: z.string(),
-  projectId: z.string(),
-});
-
-export async function deleteTask(taskId: string, projectId: string) {
-  deleteTaskSchema.parse({
-    projectId,
-    taskId,
-  });
-
-  // Delete the task whose displayId is `taskId`
-  await db
-    .delete(tasksTable)
-    .where(eq(tasksTable.displayId, taskId))
-    .returning();
 
   revalidatePath(`/projects/${projectId}`);
 }

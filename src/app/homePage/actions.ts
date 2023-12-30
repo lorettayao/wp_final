@@ -7,11 +7,10 @@ import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { bigListTable, projectsTable, usersTable, usersToProjectsTable, usersToWritingTable } from "@/db/schema";
+import { bigListTable, projectsTable, usersTable, usersToProjectsTable, usersToWritingTable, bigListToProjectsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
-
 export async function getUsers(userId: string) {
   const users = await db.query.usersTable.findFirst({
     where: eq(usersTable.displayId, userId),
@@ -22,7 +21,18 @@ export async function getUsers(userId: string) {
   });
   return users;
 }
-
+function getRandomIndices(n:number, max:number) {
+  const indices: number[] = [];
+  const min:number = n<max?n:max;
+  for(let i = 0; i < min; i++) {
+    let rand = Math.floor(Math.random() * max);
+    while(indices.includes(rand)) {
+      rand = Math.floor(Math.random() * max);
+    }
+    indices[i] = rand;
+  }
+  return indices;
+}
 export async function getTodayGlobalRanking() {
   const session = await auth();
   const userId = session?.user?.id;
@@ -107,6 +117,26 @@ export async function createProject(
       projectId: projectId,
     });
 
+    const unlearnedBigList = await db
+    .select({
+      id: bigListTable.id,
+      displayId: bigListTable.displayId,
+      wordIndex: bigListTable.wordIndex,
+    })
+    .from(bigListTable)
+    .where(and(eq(bigListTable.userId, userId),
+      eq(bigListTable.learned, false))
+    ) 
+    .execute();
+  
+    const numberOfItems = 7;
+    const randomIndices = getRandomIndices(numberOfItems, unlearnedBigList.length);
+    for(  let i = 0; i < randomIndices.length; i++) {
+      await trx.insert(bigListToProjectsTable).values({
+        projectId: projectId,
+        bigListId: unlearnedBigList[randomIndices[i]].displayId
+      });
+    }
     return {
       id: projectId,
       name: createdProject.name,

@@ -13,7 +13,6 @@ import { writingTable, usersToWritingTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
-import { addTask } from "./[projectId]/actions";
 
 const createProjectSchema = z.object({
   name: z.string().min(1).max(100),
@@ -137,8 +136,6 @@ export async function createProject(
         projectId: projectId,
         bigListId: unlearnedBigList[randomIndices[i]].displayId
       });
-      const wordAndDef = await getGlobalDictionary(unlearnedBigList[randomIndices[i]].wordIndex); // Await the getGlobalDictionary function call
-      await addTask({projectId, title: wordAndDef.word, description: wordAndDef.definition}); // Fix: Add a comma between the properties
     }
     return {
       id: projectId,

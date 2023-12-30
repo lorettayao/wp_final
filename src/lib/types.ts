@@ -25,9 +25,3 @@ export type GlobalDictionary = {
   definition: string;
 };
 
-export type Task = {
-  id: string;
-  title: string;
-  description?: string;
-  projectId: string;
-};
