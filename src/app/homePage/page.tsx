@@ -20,10 +20,10 @@ export default async function ProjectsPage() {
       <div>
         <div className="flex h-10 items-center py-8 pt-8 my-8">
           <Link href="/homePage">
-            <h2 className="flex text-5xl font-bold items-center justify-center">
+            <h2 className="flex w-screen text-5xl font-bold items-center justify-center">
               GRE StudEE
             </h2>
-            <Separator className="my-3 w-screen" />
+            {/* <Separator className="my-3 w-screen" /> */}
           </Link>
         </div>
 

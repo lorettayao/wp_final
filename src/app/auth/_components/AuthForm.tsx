@@ -27,7 +27,7 @@ function AuthForm() {
       email,
       name,
       password,
-      callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/projects`,
+      callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/homePage`,
     });
   };
   return (
@@ -107,7 +107,7 @@ function AuthForm() {
         <Button
           onClick={async () => {
             signIn("github", {
-              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/projects`,
+              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/homePage`,
             });
           }}
           className="flex w-full"

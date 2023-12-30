@@ -66,9 +66,6 @@ export default async function ProjectsPage(props: Props) {
       <Separator className="my-4" />
       <div className="mx-auto w-full max-w-2xl">
         <section>
-          {/* for testing purpose BEGIN */}
-          {/* for testing purpose END */}
-
           <div className="mt-6">
             {fakeTasks.map((task) => (
               <TaskItem
