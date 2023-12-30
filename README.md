@@ -70,7 +70,7 @@ yarn dev
 - 夏良語 B09901049 ：製作網頁Homepage，ui設計。整合Homepage和所有component的連結，以及設計單字答題考試。
 
 ## Demo 
-link
+link: https://youtu.be/9kVBmebtXHU
 
 ## Despcription
 
