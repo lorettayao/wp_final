@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { signIn } from "next-auth/react";
-import Image from "next/image";
 
 // Run: npx shadcn-ui@latest add button
 import { Button } from "@/components/ui/button";
@@ -96,25 +95,6 @@ function AuthForm() {
             Sign {isSignUp ? "Up" : "In"}
           </Button>
         </form>
-        <div className="flex w-full items-center gap-1 py-2">
-          <div className="h-[1px] grow border-t"></div>
-          <p className="text-xs text-gray-400">or</p>
-          <div className="h-[1px] grow border-t"></div>
-        </div>
-
-        <Button
-          onClick={async () => {
-            signIn("github", {
-              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/homePage`,
-            });
-          }}
-          className="flex w-full"
-          variant={"outline"}
-        >
-          {/* Remember to copy "github.png" to ./public folder */}
-          <Image src="/github.png" alt="github icon" width={20} height={20} />
-          <span className="grow">Sign In with Github</span>
-        </Button>
       </CardContent>
     </Card>
   );
