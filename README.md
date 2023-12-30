@@ -1,12 +1,14 @@
-# Run the project
+# (Group 14) GRE StudEE
 
-## Install dependencies
+## Run the project
+
+### Install dependencies
 
 ```bash
 yarn
 ```
 
-## Environment variables
+### Environment variables
 
 Create a `.env.local` file in the root of the project and add the following variables:
 
@@ -20,7 +22,7 @@ AUTH_GITHUB_SECRET=
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
-### Get Github OAuth credentials
+#### Get Github OAuth credentials
 
 - Go to `Settings` tab of your Github account
 - Click `Developer settings` on the left sidebar
@@ -42,7 +44,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
   Note that you do not have to add those keys to `src/lib/env/private.ts` since they are automatically handled by NextAuth.
 
-## Database
+### Database
 
 1. Start database
 
@@ -56,8 +58,24 @@ docker compose up -d
 yarn migrate
 ```
 
-## Start the server
+### Start the server
 
 ```bash
 yarn dev
 ```
+
+## Work Distribution
+- 姚雲起 B10901037
+- 林新晨 B10901041
+- 夏良語 B09901049
+
+## Demo 
+link
+
+## Despcription
+
+## Deployed Link
+
+## Github Link (optional)
+
+## Reference
