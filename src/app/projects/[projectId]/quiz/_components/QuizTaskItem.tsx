@@ -15,7 +15,6 @@ type TaskItemProps = {
 export default function QuizTaskItem({
   id,
   projectId,
-  completed,
   title,
   description,
 }: TaskItemProps) {
@@ -31,8 +30,7 @@ export default function QuizTaskItem({
     } else {
       console.log("Wrong!");
       setCorrect(false);
-      // TODO: How to update the bigList to false without disappear it?
-      // await updateBigListComplete(id, projectId, false);
+      await updateBigListComplete(id, projectId, false);
     }
   }
 

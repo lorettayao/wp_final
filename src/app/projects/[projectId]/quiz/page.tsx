@@ -1,13 +1,9 @@
 import { redirect } from "next/navigation";
-import { publicEnv } from "@/lib/env/public";
 
-import { Separator } from "@/components/ui/separator";
 
 // import TaskItem from "../_components/TaskItem";
 import QuizTaskItem from "./_components/QuizTaskItem";
-import { Button } from "@/components/ui/button";
 import QuitButton from "./_components/QuitButton";
-import SubmitButton from "./_components/SubmitButton";
 import { getBigList ,getProjBigListId, getProject } from "./actions";
 
 import { getGlobalDictionary } from "../../actions";
@@ -36,7 +32,7 @@ export default async function QuizPage(props: Props) {
   const fakeTasks = [];
   for (let i = 0; i < projBigList.length; i++) {
     if (bigListTask[i].learned==true) {
-      let item = {
+      const item = {
         displayId: bigListTask[i].displayId,
         title: bigListDict[i].word,
         description: bigListDict[i].definition,

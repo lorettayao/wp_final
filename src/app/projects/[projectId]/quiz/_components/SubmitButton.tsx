@@ -11,7 +11,7 @@ export default function SubmitButton({ id }: SubmitQuizProps) {
   const router = useRouter();
   const handleClick = () => {
     console.log("Submit Quiz !");
-    // router.push(`/projects/${id}`);
+    router.push(`/projects/${id}`);
   }
 
   return (
