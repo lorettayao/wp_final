@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 
 import DeleteProjectButton from "./_components/DeleteProjectButton";
-import CompleteProjectButton from "./_components/CompleteProjectButton";
 import TaskItem from "./_components/TaskItem";
 import { getBigList ,getProjBigListId, getProject } from "./actions";
 

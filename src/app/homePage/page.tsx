@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { publicEnv } from "@/lib/env/public";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { getProjects, getWritings } from "./actions";
 import { auth } from "@/lib/auth";
