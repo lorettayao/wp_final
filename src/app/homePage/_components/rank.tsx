@@ -131,13 +131,13 @@ export default function Rank() {
     <div>
       <div className='flex gap-4 text-xs p-2'>
           <button className="refresh-button flex-1 p-1" onClick={toCompetitionMode}>
-            Competition
+            Today Ranking
           </button>
           <button className="refresh-button flex-1" onClick={toMyRecordMode}>
-            My Record
+            My Records
           </button>
           <button className="refresh-button flex-1" onClick={toAllTimeMode}>
-            All Time
+            All Time Ranking
           </button>
         </div>
       <div className="rank-container">
