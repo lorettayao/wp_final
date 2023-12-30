@@ -3,14 +3,66 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { projectsTable, usersToProjectsTable, usersToWritingTable } from "@/db/schema";
+import { bigListTable, projectsTable, usersTable, usersToProjectsTable, usersToWritingTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import type { Project, User } from "@/lib/types";
+
+export async function getUsers(userId: string) {
+  const users = await db.query.usersTable.findFirst({
+    where: eq(usersTable.displayId, userId),
+    columns: {
+      displayId: true,
+      name: true,
+    },
+  });
+  return users;
+}
+
+export async function getTodayGlobalRanking() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
+  }
+  const records = await db
+    .select(
+      {
+        learned: bigListTable.learned,
+        userId: bigListTable.userId,
+      }
+    )
+    .from(bigListTable)
+    .where(and (eq(bigListTable.learnedDate, new Date().toISOString()), eq(bigListTable.learned, true)))
+    .execute();
+  return {
+    records, userId
+  };
+}
+
+export async function getMyRecordData() {
+  // get the number of true in "learned" column with correspoding "learnedDate" in BigTable with userId = userId
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
+  }
+  const records = await db
+    .select(
+      {
+        learned: bigListTable.learned,
+        learnedDate: bigListTable.learnedDate,
+      }
+    )
+    .from(bigListTable)
+    .where(and (eq(bigListTable.userId, userId), eq(bigListTable.learned, true)))
+    .execute();
+  return records;
+}
 
 const createProjectSchema = z.object({
   name: z.string().min(1).max(100),
