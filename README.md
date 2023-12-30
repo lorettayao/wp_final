@@ -20,9 +20,7 @@ AUTH_GITHUB_SECRET=
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
-### Get Github OAuth credentials (Optional)
-
-本次考試不會評分 Github 登入的部分，但是如果懶得打帳號密碼，可以參考以下步驟：
+### Get Github OAuth credentials
 
 - Go to `Settings` tab of your Github account
 - Click `Developer settings` on the left sidebar
@@ -63,18 +61,3 @@ yarn migrate
 ```bash
 yarn dev
 ```
-
-## Setup tests
-
-```bash
-yarn playwright install chromium # Install Chromium (if not already installed)
-yarn playwright install-deps chromium # Install Chromium dependencies (if not already installed)
-```
-
-## Run tests
-
-```bash
-yarn test
-```
-
-# 題目說明

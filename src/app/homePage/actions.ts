@@ -54,6 +54,27 @@ export async function getTodayGlobalRanking() {
   };
 }
 
+export async function getAllTimeGlobalRanking() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}`);
+  }
+  const records = await db
+    .select(
+      {
+        learned: bigListTable.learned,
+        userId: bigListTable.userId,
+      }
+    )
+    .from(bigListTable)
+    .where(and (eq(bigListTable.learned, true)))
+    .execute();
+  return {
+    records, userId
+  };
+}
+
 export async function getMyRecordData() {
   // get the number of true in "learned" column with correspoding "learnedDate" in BigTable with userId = userId
   const session = await auth();

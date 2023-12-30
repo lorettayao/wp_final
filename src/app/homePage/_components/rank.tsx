@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import './rank.css';
-import { getUsers, getMyRecordData, getTodayGlobalRanking } from '../actions';
+import { getUsers, getMyRecordData, getTodayGlobalRanking, getAllTimeGlobalRanking } from '../actions';
 
 interface RankData {
   userId: string;
@@ -16,7 +16,8 @@ interface RecordData {
 export default function Rank() {
   const [rankData, setRankData] = useState<RankData[]>([]);
   const [recordData, setRecordData] = useState<RecordData[]>([]);
-  const [isInCompetitionMode, setIsInCompetitionMode] = useState(true);
+  const [allRankData, setAllRankData] = useState<RankData[]>([]);
+  const [mode, setMode] = useState('competition'); // ['competition', 'myrecord', 'alltime']
   // Function to fetch and update rank data
   const fetchRankData = async () => {
     const recordsUserId= await getTodayGlobalRanking();
@@ -41,10 +42,7 @@ export default function Rank() {
       }
       sumOfUser.push({ userId: userName, score: sum });
     }
-    sumOfUser.sort((a, b) => {
-      return b.score - a.score;
-    });
-    setRankData(sumOfUser);
+    setRankData(sumOfUser.slice().sort((a, b) => b.score - a.score));
   };
 
   // Function to fetch and update user's 10-day performance
@@ -70,7 +68,34 @@ export default function Rank() {
       }
       recordData.push({ day: dates[i], performance: sum });
     }
-    setRecordData(recordData);
+    setRecordData(recordData.slice().sort((a, b) => b.performance - a.performance));
+  };
+
+  // Function to fetch and update rank data
+  const fetchAllRankData = async () => {
+    const recordsUserId= await getAllTimeGlobalRanking();
+    const records = recordsUserId.records;
+
+    const rankData:string[] = [];
+    for(let i = 0; i < records.length; i++){
+      if (!rankData.includes(records[i].userId)) {
+        rankData.push(records[i].userId);
+      }
+    }
+    // calculate the sum of learned of every user, and store it in an array with form like [userId, sum]
+    const sumOfUser: RankData[] = [];
+    for(let i = 0; i < rankData.length; i++){
+      let sum = 0;
+      const user = await getUsers(rankData[i]);
+      const userName = user? user.name: rankData[i];
+      for(let j = 0; j < records.length; j++){
+        if(rankData[i] === records[j].userId){
+          sum += 1;
+        }
+      }
+      sumOfUser.push({ userId: userName, score: sum });
+    }
+    setAllRankData(sumOfUser.slice().sort((a, b) => b.score - a.score));
   };
 
   // useEffect to fetch rank data on component mount
@@ -79,45 +104,79 @@ export default function Rank() {
   }, []);
 
   // Toggle between Competition and My Record modes
-  const toggleMode = () => {
-    if (isInCompetitionMode) {
-      fetchMyRecordData();
-    } else {
-      fetchRankData();
-    }
+  // const toggleMode = () => {
+  //   if (isInCompetitionMode) {
+  //     fetchMyRecordData();
+  //   } else {
+  //     fetchRankData();
+  //   }
 
-    setIsInCompetitionMode(!isInCompetitionMode);
-  };
+  //   setIsInCompetitionMode(!isInCompetitionMode);
+  // };
+
+  const toCompetitionMode = () => {
+    fetchRankData();
+    setMode("competition");
+  }
+  const toMyRecordMode = () => {
+    fetchMyRecordData();
+    setMode("myrecord");
+  }
+  const toAllTimeMode = () => {
+    fetchAllRankData();
+    setMode("alltime");
+  }
 
   return (
-    <div className="rank-container">
-      <h1 className="rank-heading">{isInCompetitionMode ? 'Daily competition' : 'My record'}</h1>
-      <button className="refresh-button" onClick={toggleMode}>
-        {isInCompetitionMode ? 'My Record' : 'Competition'}
-      </button>
-      <table className="rank-table">
-        <thead>
-          <tr>
-            <th>{isInCompetitionMode ? 'User ID' : 'Date'}</th>
-            <th>{isInCompetitionMode ? "Today's Score" : 'Score'}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isInCompetitionMode
-            ? rankData.map((user) => (
-                <tr key={user.userId}>
-                  <td>{user.userId}</td>
-                  <td>{user.score}</td>
-                </tr>
-              ))
-            : recordData.map((record) => (
-                <tr key={record.day}>
-                  <td>{record.day}</td>
-                  <td>{record.performance}</td>
-                </tr>
-              ))}
-        </tbody>
-      </table>
+    <div>
+      <div className='flex gap-4 text-xs p-2'>
+          <button className="refresh-button flex-1 p-1" onClick={toCompetitionMode}>
+            Competition
+          </button>
+          <button className="refresh-button flex-1" onClick={toMyRecordMode}>
+            My Record
+          </button>
+          <button className="refresh-button flex-1" onClick={toAllTimeMode}>
+            All Time
+          </button>
+        </div>
+      <div className="rank-container">
+        
+        <h1 className="rank-heading text-lg font-bold">
+          {mode==='competition' ? 'Daily Competition' : mode==='myrecord' ? 'My Record' : 'All Time Score'}
+        </h1>
+        <table className="rank-table">
+          <thead>
+            <tr>
+              <th>{ mode==='competition' ? 'Name' : mode==='myrecord' ? 'Date' : 'Name' }</th>
+              <th>{ mode==='competition' ? "Today's Score" : mode==='myrecord' ? 'Score' : 'Score' }</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mode==='competition'
+              ? rankData.map((user) => (
+                  <tr key={user.userId}>
+                    <td>{user.userId}</td>
+                    <td>{user.score}</td>
+                  </tr>
+                ))
+              : mode==='myrecord' 
+              ? recordData.map((record) => (
+                  <tr key={record.day}>
+                    <td>{record.day}</td>
+                    <td>{record.performance}</td>
+                  </tr>
+                ))
+              : allRankData.map((user) => (
+                  <tr key={user.userId}>
+                    <td>{user.userId}</td>
+                    <td>{user.score}</td>
+                  </tr>
+                ))
+              }
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -56,8 +56,6 @@ export default async function ProjectsPage(props: Props) {
               Show Translation
             </Button>
           } */}
-          
-
 
           <DeleteProjectButton id={project.displayId} />
         </div>

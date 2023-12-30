@@ -23,7 +23,7 @@ export default async function WritingShowPage(props: WritingShowPageProps) {
         <DeleteWritingButton id={writing.displayId} />
       </div>
     <div className="flex items-center justify-between bg-gray-200 p-4 mb-4">
-      <h1 className="text-3xl font-bold">{writing.name}</h1>
+      <h1 className="text-2xl font-bold">{writing.name}</h1>
       
     </div>
     <div className="flex-1 overflow-y-auto">
