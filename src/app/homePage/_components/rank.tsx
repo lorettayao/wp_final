@@ -41,6 +41,9 @@ export default function Rank() {
       }
       sumOfUser.push({ userId: userName, score: sum });
     }
+    sumOfUser.sort((a, b) => {
+      return b.score - a.score;
+    });
     setRankData(sumOfUser);
   };
 
