@@ -65,9 +65,9 @@ yarn dev
 ```
 
 ## Work Distribution
-- 姚雲起 B10901037
-- 林新晨 B10901041
-- 夏良語 B09901049
+- 姚雲起 B10901037 ：製作寫作database，包含topic,writing內容的儲存和user mapping。撰寫前端rank
+- 林新晨 B10901041 :製作單字database，包含user,project,biglist之間關係。撰寫後段function，後端rank
+- 夏良語 B09901049 ：製作網頁Homepage，ui設計。整合Homepage和所有component的連結，以及設計單字答題考試。
 
 ## Demo 
 link
@@ -79,3 +79,4 @@ https://wp-final.vercel.app/
 ## Github Link (optional)
 
 ## Reference
+Hack 2 in WP1121
