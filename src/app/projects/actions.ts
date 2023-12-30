@@ -8,7 +8,6 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { projectsTable, usersToProjectsTable, bigListTable, bigListToProjectsTable, globalDictionaryTable } from "@/db/schema";
-import { writingTable, usersToWritingTable } from "@/db/schema";
 
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
